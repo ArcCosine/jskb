@@ -2,7 +2,7 @@ import merge from 'webpack-merge';
 import common from './webpack.common.js'; // import common setting.
 import TerserPlugin from 'terser-webpack-plugin';
 
-const devConfig = merge(common, {
+const config = merge(common, {
     mode: "production",
     optimization: {
         minimize: true,
@@ -10,4 +10,4 @@ const devConfig = merge(common, {
     }
 });
 
-export default devConfig;
+export default config;

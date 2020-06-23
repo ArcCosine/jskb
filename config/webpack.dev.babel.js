@@ -13,7 +13,8 @@ const devConfig = merge(common, {
         watchContentBase: true,
         host: '0.0.0.0',
         disableHostCheck: true,
-        port: 9200
+        port: 9200,
+        historyApiFallback: true,
     }
 })
 

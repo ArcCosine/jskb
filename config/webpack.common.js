@@ -1,68 +1,66 @@
 // webpack configuration
-import HtmlWebpackPlugin from 'html-webpack-plugin'
+import HtmlWebpackPlugin from "html-webpack-plugin";
 
-import path from 'path'
-import webpack from 'webpack'
-
-// const devMode = process.env.NODE_ENV !== 'production'
+import path from "path";
+import webpack from "webpack";
 
 const config = {
     entry: {
-        app: ['./src/ts/main.ts']
+        app: ["./src/ts/main.tsx"]
     },
     output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: './js/darkkifu.min.js'
+        //path: path.resolve(__dirname, "dist"),
+        filename: "./js/darkkifu.min.js"
     },
     module: {
         rules: [
             {
                 test: /\.html$/,
-                loader: 'html-loader'
+                loader: "html-loader"
             },
             {
                 test: /\.scss$/,
                 use: [
+                    "style-loader",
                     {
-                        loader: 'css-loader',
+                        loader: "css-loader",
                         options: {
                             sourceMap: true,
                             importLoaders: 2,
                             url: false
                         }
                     },
-                    'sass-loader'
+                    "sass-loader"
                 ]
             },
             {
-                test: /\.ts/,
-                use:[
-                    'ts-loader'
-                ]
+                test: /\.ts(x?)$/,
+                use: ["ts-loader"]
+            },
+ {
+                enforce: "pre",
+                test: /\.js$/,
+                loader: "source-map-loader"
             }
         ]
     },
     resolve: {
-        extensions: ['.js', '.ts']
+        extensions: [".tsx", ".ts", ".js", ".json"]
     },
     plugins: [
         new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify('development')
+            "process.env": {
+                NODE_ENV: JSON.stringify("development")
             }
         }),
 
         new HtmlWebpackPlugin({
-            template: './src/index.html',
+            template: "./src/index.html",
             minify: {
                 collapseWhitespace: true
             }
-        }),
+        })
     ],
- externals: {
-        "react": "React",
-        "react-dom": "ReactDOM"
-    }
-}
+};
 
-module.exports = config
+module.exports = config;
