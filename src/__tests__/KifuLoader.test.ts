@@ -2,7 +2,7 @@ import { KifuLoader } from "../ts/components/KifuLoader";
 
 const loader = new KifuLoader();
 
-it("Kif File Format Test 1", () => {
+it("Kif Format Test", () => {
     const withLineBreak = `# ---- Kifu for Windows95 V3.53 棋譜ファイル ----
 開始日時：1999/07/15(木) 19:07:12
 終了日時：1999/07/15(木) 19:07:17
@@ -14,21 +14,21 @@ it("Kif File Format Test 1", () => {
 2 ３四歩(33) ( 0:00/00:00:00)
 3 中断 ( 0:03/ 0:00:19)`;
     expect(loader.parseEvent(withLineBreak)).toEqual({
-        start_time: "1999/07/15(木) 19:07:12",
-        end_time: "1999/07/15(木) 19:07:17",
-        player_info: "平手",
-        name_plus: "先手の対局者名",
-        name_minus: "後手の対局者名"
+        startTime: "1999/07/15(木) 19:07:12",
+        endTime: "1999/07/15(木) 19:07:17",
+        handicap: "平手",
+        nameSente: "先手の対局者名",
+        nameGote: "後手の対局者名"
     });
 });
 
-it("Kif File Format Test 2", () => {
+it("Ki2 File Format Test", () => {
     const withLineBreak = `開始日時：2020/06/22 10:00:00
 終了日時：2020/06/22 20:10:00
 棋戦：竜王戦
 場所：東京・将棋会館
 持ち時間：５時間
-消費時間：80▲211△277
+消費時間：20▲211△277
 手合割：平手
 先手：居飛車先手
 後手：居飛車後手
@@ -39,20 +39,20 @@ it("Kif File Format Test 2", () => {
 ▲投了
 まで20手で後手の勝ち`;
     expect(loader.parseEvent(withLineBreak)).toEqual({
-        start_time: "2020/06/22 10:00:00",
-        end_time: "2020/06/22 20:10:00",
+        startTime: "2020/06/22 10:00:00",
+        endTime: "2020/06/22 20:10:00",
         event: "竜王戦",
         site: "東京・将棋会館",
-        time_limit: "５時間",
-        time_spend: "20▲211△277",
-        player_info: "平手",
-        name_plus: "居飛車先手",
-        name_minus: "居飛車後手",
+        timeLimit: "５時間",
+        timeSpend: "20▲211△277",
+        handicap: "平手",
+        nameSente: "居飛車先手",
+        nameGote: "居飛車後手",
         openning: "角換わりその他"
     });
 });
 
-it("CSA File Format Test 1", () => {
+it("CSA Format Test", () => {
     const withLineBreak = `'----------棋譜ファイルの例"example.csa"-----------------
 'バージョン
 V2.2
@@ -92,13 +92,13 @@ T6
 %CHUDAN
 '---------------------------------------------------------`;
     expect(loader.parseEvent(withLineBreak)).toEqual({
-        name_plus: "NAKAHARA",
-        name_minus: "YONENAG",
+        nameSente: "NAKAHARA",
+        nameGote: "YONENAGA",
         event: "13th World Computer Shogi Championship",
-        state: "KAZUSA ARC",
-        start_time: "2003/05/03 10:30:00",
-        end_time: "2003/05/03 11:11:05",
-        time_limit: "00:25+00",
+        site: "KAZUSA ARC",
+        startTime: "2003/05/03 10:30:00",
+        endTime: "2003/05/03 11:11:05",
+        timeLimit: "00:25+00",
         openning: "YAGURA"
     });
 });
