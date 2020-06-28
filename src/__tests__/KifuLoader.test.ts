@@ -20,6 +20,9 @@ it("Kif Format Test", () => {
         nameSente: "先手の対局者名",
         nameGote: "後手の対局者名"
     });
+
+    expect(loader.parseMove(withLineBreak)).toEqual({
+    });
 });
 
 it("Ki2 File Format Test", () => {

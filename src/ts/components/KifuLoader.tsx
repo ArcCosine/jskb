@@ -19,10 +19,12 @@ interface BoardInfoObject {
     [index: string]: string;
 }
 
-export class KifuLoader {
-    parseEvent(kif: string | null): Dictionary {
-        const boardInfo: BoardInfoObject = {};
+interface MoveInfoObject {
+    [index: string]: string;
+}
 
+export class KifuLoader {
+    transKifText (kifText: string |null, kifReg: RegExp, boardInfo : BoardInfoObject ): void {
         const bordInfoNames: Dictionary = {
             // KIF , KI2
             開始日時: "startTime",
@@ -53,52 +55,63 @@ export class KifuLoader {
             $OPENING: "openning",
         };
 
+
+        const info: string[] = kifText.match(kifReg);
+        const keyName = bordInfoNames[info[1]];
+        boardInfo[keyName] = info[2];
+
+    }
+    parseEvent(kif: string | null): Dictionary {
+        const boardInfo: BoardInfoObject = {};
+
         const kifArray: string[] = kif.split(/\r?\n/);
         kifArray.map(kifLine => {
-            // Kif format
+            // Kif, Ki2 format
             if (kifLine.indexOf("：") > -1) {
-                const info: string[] = kifLine.split("：");
-                const keyName = bordInfoNames[info[0]];
-                boardInfo[keyName] = info[1];
+                this.transKifText( kifLine, /^(.+?)：(.+)$/, boardInfo );
             }
             // Csa format
             if (kifLine.indexOf("$") > -1) {
-                const info: string[] = kifLine.match(/^(\$.+?):(.+)$/);
-                const keyName = bordInfoNames[info[1]];
-                boardInfo[keyName] = info[2];
+                this.transKifText( kifLine, /^(\$.+?):(.+)$/, boardInfo );
             }
+            // Csa player name format
             if( /N[+-]/.test(kifLine) ){
-                const info: string[] = kifLine.match(/^(N[+-])(.+)$/);
-                const keyName = bordInfoNames[info[1]];
-                boardInfo[keyName] = info[2];
+                this.transKifText( kifLine, /^(N[+-])(.+)$/, boardInfo );
             }
         });
 
-        // result.firstname = temp.firstname || temp.下手 || "";
-        // result.backname = temp.backname || temp.上手 || "";
-        // result.starturn = kifPlayer.analyzekif.starturn(
-        //     temp.starturn,
-        //     temp.handicap
-        // );
-        // result.lastturn = kifPlayer.analyzekif.lastturn(temp.lastturn);
-        // result.handicap = kifPlayer.analyzekif.handicap(temp.handicap);
-        // result.evaluation = temp.parsed
-        //     ? kifPlayer.analyzekif.evaluation(temp.move)
-        //     : [];
-        // result.reader = temp.parsed
-        //     ? kifPlayer.analyzekif.reader(temp.move)
-        //     : ["-"];
-        // result.initalaspect = {
-        //     駒: kifPlayer.analyzekif.aspect(temp.aspect, result.handicap),
-        //     firstPiece: kifPlayer.analyzekif.持駒(
-        //         temp.firstPiece || temp.下手の持駒
-        //     ),
-        //     backPiece: kifPlayer.analyzekif.持駒(temp.backPiece || temp.上手の持駒)
-        // };
-        // result.totalmove = kifPlayer.analyzekif.move(temp.move, result.starturn);
-        // result.totaleffort = result.totalmove[0].length - 1;
-        // result.change = 0;
-
         return boardInfo;
+    }
+
+    fullWidthToNumber(text: string | null): number {
+        return "０１２３４５６７８９".indexOf(text);
+    }
+
+    charactorToNumber(text: string | null): number {
+        return "〇一二三四五六七八九".indexOf(text);
+    }
+
+
+    parseMove(kif: string | null): Dictionary {
+        const kifArray: string[] = kif.split(/\r?\n/);
+        const moveInfo: MoveInfoObject= {};
+
+        kifArray.map(kifLine => {
+            // Kif format
+            if (/([１-９])/.test(kifLine)) {
+                //<指し手> = [<手番>]<移動先座標><駒>[<装飾子>]<移動元座標>
+                //７六歩(77) 
+                //+7776FU
+                const m = kifLine.match(/([１-９同])([一二三四五六七八九])([歩香桂銀金角飛王と成馬龍]+)\((\d\d)\)/);
+                console.log(m[4]);
+                console.log(kifLine);
+            }
+            // Csa format
+            //if (kifLine.indexOf() > -1) {
+                //先後("+"、または"-")の後、移動前、移動後の位置、移動後の駒名、で表す。
+            //}
+        });
+
+        return moveInfo;
     }
 }
