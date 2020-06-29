@@ -22,6 +22,33 @@ it("Kif Format Test", () => {
     });
 
     expect(loader.parseMove(withLineBreak)).toEqual({
+        history: [
+            {
+                x: "7",
+                y: "6",
+                beforeX: "7",
+                beforeY: "7",
+                reverse: false,
+                piece: "FU"
+            },
+            {
+                x: "3",
+                y: "4",
+                beforeX: "3",
+                beforeY: "3",
+                reverse: false,
+                piece: "FU"
+            },
+            {
+                x: null,
+                y: null,
+                beforeX: null,
+                beforeY: null,
+                reverse: null,
+                piece: null,
+                status: "CHUDAN"
+            }
+        ]
     });
 });
 
@@ -52,6 +79,180 @@ it("Ki2 File Format Test", () => {
         nameSente: "居飛車先手",
         nameGote: "居飛車後手",
         openning: "角換わりその他"
+    });
+
+    expect(loader.parseMove(withLineBreak)).toEqual({
+        history: [
+            {
+                x: "2",
+                y: "6",
+                beforeX: "2",
+                beforeY: "7",
+                reverse: false,
+                piece: "FU"
+            },
+            {
+                x: "8",
+                y: "4",
+                beforeX: "8",
+                beforeY: "3",
+                reverse: false,
+                piece: "FU"
+            },
+            {
+                x: "2",
+                y: "5",
+                beforeX: "2",
+                beforeY: "6",
+                reverse: false,
+                piece: "FU"
+            },
+            {
+                x: "8",
+                y: "5",
+                beforeX: "8",
+                beforeY: "4",
+                reverse: false,
+                piece: "FU"
+            },
+            {
+                x: "7",
+                y: "6",
+                beforeX: "7",
+                beforeY: "7",
+                reverse: false,
+                piece: "FU"
+            },
+            {
+                x: "3",
+                y: "2",
+                beforeX: "4",
+                beforeY: "1",
+                reverse: false,
+                piece: "KI"
+            },
+            {
+                x: "7",
+                y: "7",
+                beforeX: "8",
+                beforeY: "8",
+                reverse: false,
+                piece: "KA"
+            },
+            {
+                x: "3",
+                y: "4",
+                beforeX: "3",
+                beforeY: "3",
+                reverse: false,
+                piece: "FU"
+            },
+            {
+                x: "6",
+                y: "8",
+                beforeX: "7",
+                beforeY: "9",
+                reverse: false,
+                piece: "GI"
+            },
+            {
+                x: "7",
+                y: "7",
+                beforeX: "2",
+                beforeY: "2",
+                reverse: true,
+                piece: "UM"
+            },
+            {
+                x: "7",
+                y: "7",
+                beforeX: "6",
+                beforeY: "8",
+                reverse: false,
+                piece: "GI"
+            },
+            {
+                x: "2",
+                y: "2",
+                beforeX: "3",
+                beforeY: "1",
+                reverse: false,
+                piece: "GI"
+            },
+            {
+                x: "4",
+                y: "8",
+                beforeX: "6",
+                beforeY: "9",
+                reverse: false,
+                piece: "GI"
+            },
+            {
+                x: "6",
+                y: "2",
+                beforeX: "7",
+                beforeY: "1",
+                reverse: false,
+                piece: "GI"
+            },
+            {
+                x: "3",
+                y: "6",
+                beforeX: "3",
+                beforeY: "7",
+                reverse: false,
+                piece: "FU"
+            },
+            {
+                x: "3",
+                y: "3",
+                beforeX: "2",
+                beforeY: "2",
+                reverse: false,
+                piece: "GI"
+            },
+            {
+                x: "7",
+                y: "8",
+                beforeX: "6",
+                beforeY: "9",
+                reverse: false,
+                piece: "KI"
+            },
+            {
+                x: "6",
+                y: "4",
+                beforeX: "6",
+                beforeY: "3",
+                reverse: false,
+                piece: "FU"
+            },
+            {
+                x: "6",
+                y: "8",
+                beforeX: "5",
+                beforeY: "9",
+                reverse: false,
+                piece: "OU"
+            },
+            {
+                x: "6",
+                y: "3",
+                beforeX: "7",
+                beforeY: "2",
+                reverse: false,
+                piece: "GI"
+            },
+            {
+                x: null,
+                y: null,
+                beforeX: null,
+                beforeY: null,
+                reverse: null,
+                piece: null,
+                status: "TORYO"
+            }
+        ]
     });
 });
 
@@ -104,4 +305,35 @@ T6
         timeLimit: "00:25+00",
         openning: "YAGURA"
     });
+
+    expect(loader.parseMove(withLineBreak)).toEqual({
+        history: [
+            {
+                x: "2",
+                y: "7",
+                beforeX: "2",
+                beforeY: "6",
+                reverse: false,
+                piece: "FU"
+            },
+            {
+                x: "3",
+                y: "4",
+                beforeX: "3",
+                beforeY: "3",
+                reverse: false,
+                piece: "FU"
+            },
+            {
+                x: null,
+                y: null,
+                beforeX: null,
+                beforeY: null,
+                reverse: null,
+                piece: null,
+                status: "CHUDAN"
+            }
+        ]
+    });
+
 });

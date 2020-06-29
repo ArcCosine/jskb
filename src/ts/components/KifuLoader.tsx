@@ -19,12 +19,12 @@ interface BoardInfoObject {
     [index: string]: string;
 }
 
-interface MoveInfoObject {
-    [index: string]: string;
-}
-
 export class KifuLoader {
-    transKifText (kifText: string |null, kifReg: RegExp, boardInfo : BoardInfoObject ): void {
+    transKifText(
+        kifText: string | null,
+        kifReg: RegExp,
+        boardInfo: BoardInfoObject
+    ): void {
         const bordInfoNames: Dictionary = {
             // KIF , KI2
             開始日時: "startTime",
@@ -52,15 +52,14 @@ export class KifuLoader {
             $START_TIME: "startTime",
             $END_TIME: "endTime",
             $TIME_LIMIT: "timeLimit",
-            $OPENING: "openning",
+            $OPENING: "openning"
         };
-
 
         const info: string[] = kifText.match(kifReg);
         const keyName = bordInfoNames[info[1]];
         boardInfo[keyName] = info[2];
-
     }
+
     parseEvent(kif: string | null): Dictionary {
         const boardInfo: BoardInfoObject = {};
 
@@ -68,15 +67,15 @@ export class KifuLoader {
         kifArray.map(kifLine => {
             // Kif, Ki2 format
             if (kifLine.indexOf("：") > -1) {
-                this.transKifText( kifLine, /^(.+?)：(.+)$/, boardInfo );
+                this.transKifText(kifLine, /^(.+?)：(.+)$/, boardInfo);
             }
             // Csa format
             if (kifLine.indexOf("$") > -1) {
-                this.transKifText( kifLine, /^(\$.+?):(.+)$/, boardInfo );
+                this.transKifText(kifLine, /^(\$.+?):(.+)$/, boardInfo);
             }
             // Csa player name format
-            if( /N[+-]/.test(kifLine) ){
-                this.transKifText( kifLine, /^(N[+-])(.+)$/, boardInfo );
+            if (/N[+-]/.test(kifLine)) {
+                this.transKifText(kifLine, /^(N[+-])(.+)$/, boardInfo);
             }
         });
 
@@ -91,27 +90,38 @@ export class KifuLoader {
         return "〇一二三四五六七八九".indexOf(text);
     }
 
-
-    parseMove(kif: string | null): Dictionary {
+    parseMove(kif: string | null): Object {
         const kifArray: string[] = kif.split(/\r?\n/);
-        const moveInfo: MoveInfoObject= {};
+        const kifHistory: Object[] = [];
 
         kifArray.map(kifLine => {
             // Kif format
             if (/([１-９])/.test(kifLine)) {
                 //<指し手> = [<手番>]<移動先座標><駒>[<装飾子>]<移動元座標>
-                //７六歩(77) 
+                //７六歩(77)
                 //+7776FU
-                const m = kifLine.match(/([１-９同])([一二三四五六七八九])([歩香桂銀金角飛王と成馬龍]+)\((\d\d)\)/);
-                console.log(m[4]);
+                const m = kifLine.match(
+                    /([１-９同])([一二三四五六七八九])([歩香桂銀金角飛王と成馬龍]+)\((\d)(\d)\)/
+                );
+                const kifStatus: Object = {
+                    x: this.fullWidthToNumber(m[1]),
+                    y: this.charactorToNumber(m[2]),
+                    beforeX: m[4],
+                    beforeY: m[5],
+                    reverse: false,
+                    piece: m[3]
+                };
+                kifHistory.push(kifStatus);
                 console.log(kifLine);
             }
             // Csa format
             //if (kifLine.indexOf() > -1) {
-                //先後("+"、または"-")の後、移動前、移動後の位置、移動後の駒名、で表す。
+            //先後("+"、または"-")の後、移動前、移動後の位置、移動後の駒名、で表す。
             //}
         });
 
-        return moveInfo;
+        return {
+            history:kifHistory 
+        };
     }
 }
