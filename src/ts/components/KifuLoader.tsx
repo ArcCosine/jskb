@@ -123,8 +123,24 @@ export class KifuLoader {
         const kifHistory: Object[] = [];
 
         kifArray.map(kifLine => {
+
+            if( /^△|^▲/.test(kifLine) ){
+            // Ki2 format
+                // const m = kifLine.match(
+                //     /([１-９同])([一二三四五六七八九])([歩香桂銀金角飛王と成馬龍]+)\((\d)(\d)\)/
+                // );
+                // const kifStatus: Object = {
+                //     x: this.fullWidthToNumber(m[1]),
+                //     y: this.charactorToNumber(m[2]),
+                //     beforeX: parseInt(m[4],10),
+                //     beforeY: parseInt(m[5],10),
+                //     reverse: false,
+                //     piece: this.pieceCharactorToAlphabet(m[3]),
+                // };
+                // kifHistory.push(kifStatus);
+
+            } else if (/([１-９])/.test(kifLine)) {
             // Kif format
-            if (/([１-９])/.test(kifLine)) {
                 //<指し手> = [<手番>]<移動先座標><駒>[<装飾子>]<移動元座標>
                 //７六歩(77)
                 //+7776FU
@@ -140,12 +156,35 @@ export class KifuLoader {
                     piece: this.pieceCharactorToAlphabet(m[3]),
                 };
                 kifHistory.push(kifStatus);
-                console.log(kifLine);
-            }
+            } else if (/^[+-].+/.test(kifLine)) {
             // Csa format
-            //if (kifLine.indexOf() > -1) {
-            //先後("+"、または"-")の後、移動前、移動後の位置、移動後の駒名、で表す。
-            //}
+                const m = kifLine.match(
+                    /([+-])(\d)(\d)(\d)(\d)(\w+)/
+                );
+                const kifStatus: Object = {
+                    x: parseInt(m[4],10),
+                    y: parseInt(m[5],10),
+                    beforeX: parseInt(m[2],10),
+                    beforeY: parseInt(m[3],10),
+                    reverse: false,
+                    piece: m[6],
+                };
+                kifHistory.push(kifStatus);
+            } else if( /^%.+/.test(kifLine) ){
+                const m = kifLine.match(
+                    /^%(.+)$/
+                );
+                const kifStatus: Object = {
+                    x: null,
+                    y: null,
+                    beforeX: null,
+                    beforeY: null,
+                    reverse: null,
+                    piece: null,
+                    status: m[1] 
+                };
+                kifHistory.push(kifStatus);
+            }
         });
 
         return {
