@@ -90,6 +90,34 @@ export class KifuLoader {
         return "〇一二三四五六七八九".indexOf(text);
     }
 
+    pieceCharactorToAlphabet(text:string | null): string {
+        const charactorObject:Dictionary = {
+            "歩" : "FU",
+            "香" : "KY",
+            "桂" : "KE",
+            "銀" : "GI",
+            "金" : "KI",
+            "角" : "KA",
+            "飛" : "HI",
+            "王" : "OU",
+            "玉" : "OU",
+            "と" : "TO",
+            "成香" : "NY",
+            "成桂" : "NK",
+            "成銀" : "NG",
+            "馬" : "UM",
+            "龍" : "RY"
+        };
+
+        let result:string = text;
+
+        if( typeof charactorObject[text] !== 'undefined' ){
+            result = charactorObject[text];
+        }
+
+        return result;
+    }
+
     parseMove(kif: string | null): Object {
         const kifArray: string[] = kif.split(/\r?\n/);
         const kifHistory: Object[] = [];
@@ -106,10 +134,10 @@ export class KifuLoader {
                 const kifStatus: Object = {
                     x: this.fullWidthToNumber(m[1]),
                     y: this.charactorToNumber(m[2]),
-                    beforeX: m[4],
-                    beforeY: m[5],
+                    beforeX: parseInt(m[4],10),
+                    beforeY: parseInt(m[5],10),
                     reverse: false,
-                    piece: m[3]
+                    piece: this.pieceCharactorToAlphabet(m[3]),
                 };
                 kifHistory.push(kifStatus);
                 console.log(kifLine);

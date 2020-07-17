@@ -2,6 +2,28 @@ import { KifuLoader } from "../ts/components/KifuLoader";
 
 const loader = new KifuLoader();
 
+it("fullWidthToNumber test", ()=>{
+    expect(loader.fullWidthToNumber("０")).toEqual(0);
+    expect(loader.fullWidthToNumber("９")).toEqual(9);
+    expect(loader.fullWidthToNumber("あああ")).toEqual(-1);
+})
+
+
+it("charactorToNumber test", ()=>{
+    expect(loader.charactorToNumber("〇")).toEqual(0);
+    expect(loader.charactorToNumber("九")).toEqual(9);
+    expect(loader.charactorToNumber("あああ")).toEqual(-1);
+})
+
+it("pieceCharactorToAlphabet to number test", ()=>{
+    expect(loader.pieceCharactorToAlphabet("歩")).toEqual("FU");
+    expect(loader.pieceCharactorToAlphabet("金")).toEqual("KI");
+    expect(loader.pieceCharactorToAlphabet("成銀")).toEqual("NG");
+    expect(loader.pieceCharactorToAlphabet("あああ")).toEqual("あああ");
+})
+
+
+
 it("Kif Format Test", () => {
     const withLineBreak = `# ---- Kifu for Windows95 V3.53 棋譜ファイル ----
 開始日時：1999/07/15(木) 19:07:12
@@ -24,18 +46,18 @@ it("Kif Format Test", () => {
     expect(loader.parseMove(withLineBreak)).toEqual({
         history: [
             {
-                x: "7",
-                y: "6",
-                beforeX: "7",
-                beforeY: "7",
+                x: 7,
+                y: 6,
+                beforeX: 7,
+                beforeY: 7,
                 reverse: false,
                 piece: "FU"
             },
             {
-                x: "3",
-                y: "4",
-                beforeX: "3",
-                beforeY: "3",
+                x: 3,
+                y: 4,
+                beforeX: 3,
+                beforeY: 3,
                 reverse: false,
                 piece: "FU"
             },
@@ -84,162 +106,162 @@ it("Ki2 File Format Test", () => {
     expect(loader.parseMove(withLineBreak)).toEqual({
         history: [
             {
-                x: "2",
-                y: "6",
-                beforeX: "2",
-                beforeY: "7",
+                x: 2,
+                y: 6,
+                beforeX: 2,
+                beforeY: 7,
                 reverse: false,
                 piece: "FU"
             },
             {
-                x: "8",
-                y: "4",
-                beforeX: "8",
-                beforeY: "3",
+                x: 8,
+                y: 4,
+                beforeX: 8,
+                beforeY: 3,
                 reverse: false,
                 piece: "FU"
             },
             {
-                x: "2",
-                y: "5",
-                beforeX: "2",
-                beforeY: "6",
+                x: 2,
+                y: 5,
+                beforeX: 2,
+                beforeY: 6,
                 reverse: false,
                 piece: "FU"
             },
             {
-                x: "8",
-                y: "5",
-                beforeX: "8",
-                beforeY: "4",
+                x: 8,
+                y: 5,
+                beforeX: 8,
+                beforeY: 4,
                 reverse: false,
                 piece: "FU"
             },
             {
-                x: "7",
-                y: "6",
-                beforeX: "7",
-                beforeY: "7",
+                x: 7,
+                y: 6,
+                beforeX: 7,
+                beforeY: 7,
                 reverse: false,
                 piece: "FU"
             },
             {
-                x: "3",
-                y: "2",
-                beforeX: "4",
-                beforeY: "1",
+                x: 3,
+                y: 2,
+                beforeX: 4,
+                beforeY: 1,
                 reverse: false,
                 piece: "KI"
             },
             {
-                x: "7",
-                y: "7",
-                beforeX: "8",
-                beforeY: "8",
+                x: 7,
+                y: 7,
+                beforeX: 8,
+                beforeY: 8,
                 reverse: false,
                 piece: "KA"
             },
             {
-                x: "3",
-                y: "4",
-                beforeX: "3",
-                beforeY: "3",
+                x: 3,
+                y: 4,
+                beforeX: 3,
+                beforeY: 3,
                 reverse: false,
                 piece: "FU"
             },
             {
-                x: "6",
-                y: "8",
-                beforeX: "7",
-                beforeY: "9",
+                x: 6,
+                y: 8,
+                beforeX: 7,
+                beforeY: 9,
                 reverse: false,
                 piece: "GI"
             },
             {
-                x: "7",
-                y: "7",
-                beforeX: "2",
-                beforeY: "2",
+                x: 7,
+                y: 7,
+                beforeX: 2,
+                beforeY: 2,
                 reverse: true,
                 piece: "UM"
             },
             {
-                x: "7",
-                y: "7",
-                beforeX: "6",
-                beforeY: "8",
+                x: 7,
+                y: 7,
+                beforeX: 6,
+                beforeY: 8,
                 reverse: false,
                 piece: "GI"
             },
             {
-                x: "2",
-                y: "2",
-                beforeX: "3",
-                beforeY: "1",
+                x: 2,
+                y: 2,
+                beforeX: 3,
+                beforeY: 1,
                 reverse: false,
                 piece: "GI"
             },
             {
-                x: "4",
-                y: "8",
-                beforeX: "6",
-                beforeY: "9",
+                x: 4,
+                y: 8,
+                beforeX: 6,
+                beforeY: 9,
                 reverse: false,
                 piece: "GI"
             },
             {
-                x: "6",
-                y: "2",
-                beforeX: "7",
-                beforeY: "1",
+                x: 6,
+                y: 2,
+                beforeX: 7,
+                beforeY: 1,
                 reverse: false,
                 piece: "GI"
             },
             {
-                x: "3",
-                y: "6",
-                beforeX: "3",
-                beforeY: "7",
+                x: 3,
+                y: 6,
+                beforeX: 3,
+                beforeY: 7,
                 reverse: false,
                 piece: "FU"
             },
             {
-                x: "3",
-                y: "3",
-                beforeX: "2",
-                beforeY: "2",
+                x: 3,
+                y: 3,
+                beforeX: 2,
+                beforeY: 2,
                 reverse: false,
                 piece: "GI"
             },
             {
-                x: "7",
-                y: "8",
-                beforeX: "6",
-                beforeY: "9",
+                x: 7,
+                y: 8,
+                beforeX: 6,
+                beforeY: 9,
                 reverse: false,
                 piece: "KI"
             },
             {
-                x: "6",
-                y: "4",
-                beforeX: "6",
-                beforeY: "3",
+                x: 6,
+                y: 4,
+                beforeX: 6,
+                beforeY: 3,
                 reverse: false,
                 piece: "FU"
             },
             {
-                x: "6",
-                y: "8",
-                beforeX: "5",
-                beforeY: "9",
+                x: 6,
+                y: 8,
+                beforeX: 5,
+                beforeY: 9,
                 reverse: false,
                 piece: "OU"
             },
             {
-                x: "6",
-                y: "3",
-                beforeX: "7",
-                beforeY: "2",
+                x: 6,
+                y: 3,
+                beforeX: 7,
+                beforeY: 2,
                 reverse: false,
                 piece: "GI"
             },
@@ -309,18 +331,18 @@ T6
     expect(loader.parseMove(withLineBreak)).toEqual({
         history: [
             {
-                x: "2",
-                y: "7",
-                beforeX: "2",
-                beforeY: "6",
+                x: 2,
+                y: 7,
+                beforeX: 2,
+                beforeY: 6,
                 reverse: false,
                 piece: "FU"
             },
             {
-                x: "3",
-                y: "4",
-                beforeX: "3",
-                beforeY: "3",
+                x: 3,
+                y: 4,
+                beforeX: 3,
+                beforeY: 3,
                 reverse: false,
                 piece: "FU"
             },
