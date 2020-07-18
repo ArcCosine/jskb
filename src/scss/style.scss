@@ -10,15 +10,13 @@ body {
     @include reset();
 }
 
-h1 {
-    color: blue;
-}
-
-h2 {
-    color: red;
-}
-
 #dark-kifu-component {
     @include reset();
+}
+
+
+.piece {
+    font-size: 24px;
+    font-family:"游明朝, YuMincho, ヒラギノ明朝 ProN W3, Hiragino Mincho ProN, ＭＳ Ｐ明朝, MS Mincho, serif"
 }
 

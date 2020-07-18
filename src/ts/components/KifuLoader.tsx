@@ -20,6 +20,31 @@ interface BoardInfoObject {
 }
 
 export class KifuLoader {
+    board: string[][];
+
+    constructor() {
+        this.initBoard();
+    }
+
+    initBoard(): void {
+        this.board  = 
+        [
+            ["-KY","-KE","-GI","-KI","-OU","-KI","-GI","-KE","-KY"],
+            ["*","-HI","*","*","*","*","*","-KA","*"],
+            ["-FU","-FU","-FU","-FU","-FU","-FU","-FU","-FU","-FU"],
+            ["*","*","*","*","*","*","*","*","*"],
+            ["*","*","*","*","*","*","*","*","*"],
+            ["*","*","*","*","*","*","*","*","*"],
+            ["+FU","+FU","+FU","+FU","+FU","+FU","+FU","+FU","+FU"],
+            ["*","+KA","*","*","*","*","*","+HI","*"],
+            ["+KY","+KE","+GI","+KI","+OU","+KI","+GI","+KE","+KY"],
+        ]
+    }
+
+    getBoard(): string[][] {
+        return this.board;
+    }
+
     transKifText(
         kifText: string | null,
         kifReg: RegExp,
@@ -109,13 +134,28 @@ export class KifuLoader {
             "龍" : "RY"
         };
 
-        let result:string = text;
+        return ( typeof charactorObject[text] !== 'undefined') ? charactorObject[text] : text;
 
-        if( typeof charactorObject[text] !== 'undefined' ){
-            result = charactorObject[text];
-        }
+    }
 
-        return result;
+    statusCharactorToAlphabet(text:string | null): string {
+        const charactorObject:Dictionary = {
+            "投了" : "TORYO",
+            "中断" :"CHUDAN",
+            "千日手" : "SENNICHITE",
+            "手番側が時間切れで負け" : "TIME_UP",
+            "手番側の反則負け、反則の内容はコメントで記録する" : "ILLEGAL_MOVE",
+            "先手(下手)の反則行為により、後手(上手)の勝ち":"+ILLEGAL_ACTION",
+            "後手(上手)の反則行為により、先手(下手)の勝ち" :"-ILLEGAL_ACTION",
+            "持将棋":"JISHOGI",
+            "(入玉で)勝ちの宣言" : "KACHI",
+            "(入玉で)引き分けの宣言" : "HIKIWAKE",
+            "待った" : "MATTA",
+            "詰み":"TSUMI",
+            "不詰" : "FUZUMI",
+            "エラー" : "ERROR"
+        };
+        return ( typeof charactorObject[text] !== 'undefined') ? charactorObject[text] : text;
     }
 
     parseMove(kif: string | null): Object {
@@ -124,28 +164,32 @@ export class KifuLoader {
 
         kifArray.map(kifLine => {
 
-            if( /^△|^▲/.test(kifLine) ){
+            if( /^[△▲]/.test(kifLine) ){
             // Ki2 format
-                // const m = kifLine.match(
-                //     /([１-９同])([一二三四五六七八九])([歩香桂銀金角飛王と成馬龍]+)\((\d)(\d)\)/
-                // );
-                // const kifStatus: Object = {
-                //     x: this.fullWidthToNumber(m[1]),
-                //     y: this.charactorToNumber(m[2]),
-                //     beforeX: parseInt(m[4],10),
-                //     beforeY: parseInt(m[5],10),
-                //     reverse: false,
-                //     piece: this.pieceCharactorToAlphabet(m[3]),
-                // };
-                // kifHistory.push(kifStatus);
-
-            } else if (/([１-９])/.test(kifLine)) {
+                const kifs: string[] = kifLine.split(' ');
+                kifs.forEach( (kifText: string) =>{
+                    const m = kifText.match(
+                        /([１-９同])([一二三四五六七八九])([歩香桂銀金角飛王と成馬龍]+)/
+                    );
+                    if( m ){
+                        const kifStatus: Object = {
+                            x: this.fullWidthToNumber(m[1]),
+                            y: this.charactorToNumber(m[2]),
+                            beforeX: null,
+                            beforeY: null,
+                            reverse: false,
+                            piece: this.pieceCharactorToAlphabet(m[3]),
+                        };
+                        kifHistory.push(kifStatus);
+                    }
+                })
+            } else if (/[１-９同][一二三四五六七八九　]/.test(kifLine)) {
             // Kif format
                 //<指し手> = [<手番>]<移動先座標><駒>[<装飾子>]<移動元座標>
                 //７六歩(77)
                 //+7776FU
                 const m = kifLine.match(
-                    /([１-９同])([一二三四五六七八九])([歩香桂銀金角飛王と成馬龍]+)\((\d)(\d)\)/
+                    /([１-９同])([一二三四五六七八九　])([歩香桂銀金角飛王と馬龍][成打寄引上右左直]?)\((\d)(\d)\)/
                 );
                 const kifStatus: Object = {
                     x: this.fullWidthToNumber(m[1]),
@@ -156,6 +200,22 @@ export class KifuLoader {
                     piece: this.pieceCharactorToAlphabet(m[3]),
                 };
                 kifHistory.push(kifStatus);
+            } else if(/^\d+ (中断|投了|持将棋|千日手|詰み|切れ負け|反則勝ち|反則負け|入玉勝ち)/.test(kifLine)){
+                // Kif format status
+                const m = kifLine.match(
+                    /^\d+ (.+) \(/
+                );
+                const kifStatus: Object = {
+                    x: null,
+                    y: null,
+                    beforeX: null,
+                    beforeY: null,
+                    reverse: null,
+                    piece: null,
+                    status: this.statusCharactorToAlphabet(m[1])
+                };
+                kifHistory.push(kifStatus);
+
             } else if (/^[+-].+/.test(kifLine)) {
             // Csa format
                 const m = kifLine.match(
@@ -171,6 +231,7 @@ export class KifuLoader {
                 };
                 kifHistory.push(kifStatus);
             } else if( /^%.+/.test(kifLine) ){
+                // Csa format status
                 const m = kifLine.match(
                     /^%(.+)$/
                 );

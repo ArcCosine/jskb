@@ -15,13 +15,20 @@ it("charactorToNumber test", ()=>{
     expect(loader.charactorToNumber("あああ")).toEqual(-1);
 })
 
-it("pieceCharactorToAlphabet to number test", ()=>{
+it("pieceCharactorToAlphabet test", ()=>{
     expect(loader.pieceCharactorToAlphabet("歩")).toEqual("FU");
     expect(loader.pieceCharactorToAlphabet("金")).toEqual("KI");
     expect(loader.pieceCharactorToAlphabet("成銀")).toEqual("NG");
     expect(loader.pieceCharactorToAlphabet("あああ")).toEqual("あああ");
 })
 
+
+it("statusCharactorToAlphabet test", ()=>{
+    expect(loader.statusCharactorToAlphabet("投了")).toEqual("TORYO");
+    expect(loader.statusCharactorToAlphabet("中断")).toEqual("CHUDAN");
+    expect(loader.statusCharactorToAlphabet("持将棋")).toEqual("JISHOGI");
+    expect(loader.statusCharactorToAlphabet("あああ")).toEqual("あああ");
+})
 
 
 it("Kif Format Test", () => {
@@ -74,7 +81,7 @@ it("Kif Format Test", () => {
     });
 });
 
-/*it("Ki2 File Format Test", () => {
+it("Ki2 File Format Test", () => {
     const withLineBreak = `開始日時：2020/06/22 10:00:00
 終了日時：2020/06/22 20:10:00
 棋戦：竜王戦
@@ -277,7 +284,6 @@ it("Kif Format Test", () => {
         ]
     });
 });
-*/
 
 it("CSA Format Test", () => {
     const withLineBreak = `'----------棋譜ファイルの例"example.csa"-----------------
