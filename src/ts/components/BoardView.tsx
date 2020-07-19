@@ -1,5 +1,6 @@
 import * as React from "react";
 import { RectItem } from "./RectItem";
+import { NumberItem } from "./NumberItem";
 
 export interface BoardViewProps {
     boards: string[][];
@@ -42,6 +43,14 @@ export class BoardView extends React.Component<BoardViewProps, {}> {
                 return <RectItem x={x} y={y} piece={formattedPiece} isGote={isGote} />;
             });
         });
-        return rectItems;
+        const numberItems = [1,2,3,4,5,6,7,8,9].map((counter)=>{
+            return <NumberItem counter={counter} />
+        })
+        return (
+            <React.Fragment>
+                {rectItems}
+                {numberItems}
+            </React.Fragment>
+        );
     }
 }

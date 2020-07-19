@@ -5,18 +5,25 @@
 }
 
 body {
-    font-size: 16px;
-    font-family: '游ゴシック','YuGothic','ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN','ＭＳ Ｐゴシック','MS Gothic',sans-serif;
     @include reset();
 }
 
-#dark-kifu-component {
+section {
     @include reset();
+    margin: 60px auto;
+    width: 600px;
 }
 
 
+// svg
 .piece {
     font-size: 24px;
-    font-family:"游明朝, YuMincho, ヒラギノ明朝 ProN W3, Hiragino Mincho ProN, ＭＳ Ｐ明朝, MS Mincho, serif"
+    font-weight: 600;
+    font-family: "游明朝", YuMincho, "Hiragino Mincho ProN W3", "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
 }
 
+.boardBase {
+    fill: #ffe084;
+    stroke: #000;
+    stroke-width: 5;
+}
