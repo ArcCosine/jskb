@@ -1,55 +1,43 @@
 import * as React from "react";
 import { RectItem } from "./RectItem";
 import { NumberItem } from "./NumberItem";
+import { Translater } from "./Translater";
 
 export interface BoardViewProps {
     boards: string[][];
+    geta: number;
+    basesize: number;
 }
 
 export class BoardView extends React.Component<BoardViewProps, {}> {
-    pieceAlphabetToCharactor(text: string | null): string {
-
-        const charactorObject: { [index: string]: string } = {
-            FU: "歩",
-            KY: "香",
-            KE: "桂",
-            GI: "銀",
-            KI: "金",
-            KA: "角",
-            HI: "飛",
-            "+OU": "王",
-            "-OU": "玉",
-            TO: "と",
-            NY: "成香",
-            NK: "成桂",
-            NG: "成銀",
-            UM: "馬",
-            RY: "龍",
-            "*" : ""
-        };
-
-        const key = /OU/.test(text) ? text : text.replace(/[+-]/,'');
-
-        return typeof charactorObject[key] !== "undefined"
-            ? charactorObject[key]
-            : key;
-    }
-
     render() {
+        const translater = new Translater();
         const rectItems = this.props.boards.map((row: [], y: number) => {
             return row.map((piece: string, x: number) => {
-                const formattedPiece = this.pieceAlphabetToCharactor(piece);
-                const isGote = /-/.test(piece); 
-                return <RectItem x={x} y={y} piece={formattedPiece} isGote={isGote} />;
+                const uniqueKey = `${x} ${y}`;
+                const formattedPiece = translater.pieceAlphabetToCharactor(
+                    piece
+                );
+                return (
+                    <RectItem
+                        key={uniqueKey}
+                        x={x}
+                        y={y}
+                        piece={formattedPiece}
+                        isGote={/-/.test(piece)}
+                        basesize={this.props.basesize}
+                        geta={this.props.geta}
+                    />
+                );
             });
         });
-        const numberItems = [1,2,3,4,5,6,7,8,9].map((counter)=>{
-            return <NumberItem counter={counter} />
-        })
+        const numberItems = [1, 2, 3, 4, 5, 6, 7, 8, 9].map(counter => {
+            return <NumberItem key={counter} counter={counter} basesize={this.props.basesize} geta={this.props.geta} />;
+        });
         return (
             <React.Fragment>
-                {rectItems}
-                {numberItems}
+                <g>{rectItems}</g>
+                <g>{numberItems}</g>
             </React.Fragment>
         );
     }

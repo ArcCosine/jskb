@@ -1,63 +1,29 @@
 import * as React from "react";
+import { Translater } from "./Translater";
 
 export interface NumberItemProps {
     counter: number;
+    basesize: number;
+    geta: number;
 }
 
 export class NumberItem extends React.Component<NumberItemProps, {}> {
-    counterNumberToCharactor(num: number | null): string {
-        const numberCharactor = [
-            "〇",
-            "一",
-            "二",
-            "三",
-            "四",
-            "五",
-            "六",
-            "七",
-            "八",
-            "九"
-        ];
-        return typeof numberCharactor[num] !== "undefined"
-            ? numberCharactor[num]
-            : "";
-    }
-
-    counterNumberToFullWidth(num: number | null): string {
-        const numberCharactor = [
-            "０",
-            "１",
-            "２",
-            "３",
-            "４",
-            "５",
-            "６",
-            "７",
-            "８",
-            "９"
-        ];
-
-        return typeof numberCharactor[num] !== "undefined"
-            ? numberCharactor[num]
-            : "";
-    }
-
-    basesize: number = 60;
 
     render() {
-        const fullWidthCounter = this.counterNumberToFullWidth(
+        const translater = new Translater();
+        const fullWidthCounter = translater.counterNumberToFullWidth(
             this.props.counter
         );
 
-        const characotrCounter = this.counterNumberToCharactor(
+        const characotrCounter = translater.counterNumberToCharactor(
             this.props.counter
         );
         return (
             <React.Fragment>
-                <text x={595 - (this.props.counter * this.basesize)} y="24" className="piece">
+                <text x={595 - (this.props.counter * this.props.basesize)} y="24" className="piece">
                     {fullWidthCounter}
                 </text>
-                <text x="595" y={this.props.counter * this.basesize + 18} className="piece">
+                <text x="595" y={this.props.counter * this.props.basesize + 18} className="piece">
                     {characotrCounter}
                 </text>
             </React.Fragment>

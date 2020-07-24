@@ -10,6 +10,6 @@ const loader = new KifuLoader();
 const boardData = loader.getBoard();
 
 ReactDOM.render(
-  <KifuBoard width={650} height={650} board={boardData} />,
+  <KifuBoard width={650} height={650} board={boardData} geta={40} basesize={60} />,
   document.getElementById("jskb")
 );
