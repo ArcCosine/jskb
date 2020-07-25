@@ -22,8 +22,18 @@ section {
     font-family: "游明朝", YuMincho, "Hiragino Mincho ProN W3", "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
 }
 
-.boardBase {
+.jskb-board {
     fill: #ffe084;
     stroke: #000;
     stroke-width: 5;
+}
+
+.jskb-control {
+    display: flex;
+    justify-content: center;
+    button {
+        display: block;
+        width: 10em;
+        margin: 0px 1em;
+    }
 }

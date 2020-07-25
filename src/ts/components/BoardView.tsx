@@ -2,17 +2,24 @@ import * as React from "react";
 import { RectItem } from "./RectItem";
 import { NumberItem } from "./NumberItem";
 import { Translater } from "./Translater";
+import { KifuLoader } from "./KifuLoader";
 
 export interface BoardViewProps {
-    boards: string[][];
+    loader: KifuLoader;
     geta: number;
     basesize: number;
 }
 
-export class BoardView extends React.Component<BoardViewProps, {}> {
+export class BoardView extends React.Component<BoardViewProps, { boards: string[][] }> {
+    constructor(props:any) {
+        super(props);
+        this.state = {
+            boards : this.props.loader.getBoard()
+        }
+    }
     render() {
         const translater = new Translater();
-        const rectItems = this.props.boards.map((row: [], y: number) => {
+        const rectItems = this.state.boards.map((row: [], y: number) => {
             return row.map((piece: string, x: number) => {
                 const uniqueKey = `${x} ${y}`;
                 const formattedPiece = translater.pieceAlphabetToCharactor(

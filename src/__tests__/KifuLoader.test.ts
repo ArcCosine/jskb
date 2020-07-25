@@ -2,35 +2,6 @@ import { KifuLoader } from "../ts/components/KifuLoader";
 
 const loader = new KifuLoader();
 
-it("fullWidthToNumber test", ()=>{
-    expect(loader.fullWidthToNumber("０")).toEqual(0);
-    expect(loader.fullWidthToNumber("９")).toEqual(9);
-    expect(loader.fullWidthToNumber("あああ")).toEqual(-1);
-})
-
-
-it("charactorToNumber test", ()=>{
-    expect(loader.charactorToNumber("〇")).toEqual(0);
-    expect(loader.charactorToNumber("九")).toEqual(9);
-    expect(loader.charactorToNumber("あああ")).toEqual(-1);
-})
-
-it("pieceCharactorToAlphabet test", ()=>{
-    expect(loader.pieceCharactorToAlphabet("歩")).toEqual("FU");
-    expect(loader.pieceCharactorToAlphabet("金")).toEqual("KI");
-    expect(loader.pieceCharactorToAlphabet("成銀")).toEqual("NG");
-    expect(loader.pieceCharactorToAlphabet("あああ")).toEqual("あああ");
-})
-
-
-it("statusCharactorToAlphabet test", ()=>{
-    expect(loader.statusCharactorToAlphabet("投了")).toEqual("TORYO");
-    expect(loader.statusCharactorToAlphabet("中断")).toEqual("CHUDAN");
-    expect(loader.statusCharactorToAlphabet("持将棋")).toEqual("JISHOGI");
-    expect(loader.statusCharactorToAlphabet("あああ")).toEqual("あああ");
-})
-
-
 it("Kif Format Test", () => {
     const withLineBreak = `# ---- Kifu for Windows95 V3.53 棋譜ファイル ----
 開始日時：1999/07/15(木) 19:07:12
@@ -50,7 +21,8 @@ it("Kif Format Test", () => {
         nameGote: "後手の対局者名"
     });
 
-    expect(loader.parseMove(withLineBreak)).toEqual({
+    loader.loadKifu(withLineBreak)
+    expect(loader.getMoves()).toEqual({
         history: [
             {
                 x: 7,
@@ -58,7 +30,8 @@ it("Kif Format Test", () => {
                 beforeX: 7,
                 beforeY: 7,
                 reverse: false,
-                piece: "FU"
+                piece: "FU",
+                status: null
             },
             {
                 x: 3,
@@ -66,7 +39,8 @@ it("Kif Format Test", () => {
                 beforeX: 3,
                 beforeY: 3,
                 reverse: false,
-                piece: "FU"
+                piece: "FU",
+                status: null
             },
             {
                 x: null,
@@ -79,6 +53,39 @@ it("Kif Format Test", () => {
             }
         ]
     });
+
+    // add one
+    loader.loadKifu(withLineBreak);
+    loader.movePiece(1);
+    expect(loader.getBoard()).toEqual(
+        [
+            ["-KY","-KE","-GI","-KI","-OU","-KI","-GI","-KE","-KY"],
+            ["*","-HI","*","*","*","*","*","-KA","*"],
+            ["-FU","-FU","-FU","-FU","-FU","-FU","-FU","-FU","-FU"],
+            ["*","*","*","*","*","*","*","*","*"],
+            ["*","*","*","*","*","*","*","*","*"],
+            ["*","*","+FU","*","*","*","*","*","*"],
+            ["+FU","+FU","*","+FU","+FU","+FU","+FU","+FU","+FU"],
+            ["*","+KA","*","*","*","*","*","+HI","*"],
+            ["+KY","+KE","+GI","+KI","+OU","+KI","+GI","+KE","+KY"],
+        ]
+    );
+
+    // add one
+    loader.movePiece(1)
+    expect(loader.getBoard()).toEqual(
+        [
+            ["-KY","-KE","-GI","-KI","-OU","-KI","-GI","-KE","-KY"],
+            ["*","-HI","*","*","*","*","*","-KA","*"],
+            ["-FU","-FU","-FU","-FU","-FU","-FU","*","-FU","-FU"],
+            ["*","*","*","*","*","*","-FU","*","*"],
+            ["*","*","*","*","*","*","*","*","*"],
+            ["*","*","+FU","*","*","*","*","*","*"],
+            ["+FU","+FU","*","+FU","+FU","+FU","+FU","+FU","+FU"],
+            ["*","+KA","*","*","*","*","*","+HI","*"],
+            ["+KY","+KE","+GI","+KI","+OU","+KI","+GI","+KE","+KY"],
+        ]
+    );
 });
 
 /*it("Ki2 File Format Test", () => {
@@ -336,7 +343,8 @@ T6
         openning: "YAGURA"
     });
 
-    expect(loader.parseMove(withLineBreak)).toEqual({
+    loader.loadKifu(withLineBreak)
+    expect(loader.getMoves()).toEqual({
         history: [
             {
                 x: 2,
@@ -344,7 +352,8 @@ T6
                 beforeX: 2,
                 beforeY: 7,
                 reverse: false,
-                piece: "FU"
+                piece: "FU",
+                status: null
             },
             {
                 x: 3,
@@ -352,7 +361,8 @@ T6
                 beforeX: 3,
                 beforeY: 3,
                 reverse: false,
-                piece: "FU"
+                piece: "FU",
+                status: null
             },
             {
                 x: null,
