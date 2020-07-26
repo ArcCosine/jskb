@@ -1,4 +1,4 @@
-@mixin reset(){
+@mixin reset() {
     margin: 0;
     padding: 0;
     line-height: 1;
@@ -14,12 +14,13 @@ section {
     width: 600px;
 }
 
-
 // svg
 .piece {
     font-size: 24px;
     font-weight: 600;
-    font-family: "游明朝", YuMincho, "Hiragino Mincho ProN W3", "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝", "ＭＳ 明朝", serif;
+    font-family: "游明朝", YuMincho, "Hiragino Mincho ProN W3",
+        "ヒラギノ明朝 ProN W3", "Hiragino Mincho ProN", "HG明朝E", "ＭＳ Ｐ明朝",
+        "ＭＳ 明朝", serif;
 }
 
 .jskb-board {
@@ -31,9 +32,25 @@ section {
 .jskb-control {
     display: flex;
     justify-content: center;
-    button {
+    .jskb-btn {
         display: block;
         width: 10em;
         margin: 0px 1em;
+        padding: 1em 0;
+        border-width: 0;
+        outline: none;
+        border-radius: 2px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+
+        background-color: hsla(0, 0%, 60%, 0.2);
+        color: #000;
+
+        transition: background-color 0.3s;
+        &:hover {
+            background-color: hsla(0, 0%, 60%, 0.4);
+        }
+        &:focus {
+            background-color: hsla(0, 0%, 60%, 0.6);
+        }
     }
 }

@@ -1,9 +1,5 @@
 import { Translater } from "./Translater";
 
-interface Dictionary {
-    [index: string]: string;
-}
-
 interface KifStatus {
     x: number;
     y: number;
@@ -18,24 +14,10 @@ interface MoveHistory {
     history: KifStatus[];
 }
 
+interface boardInfo {
+    [key: string]: string;
+};
 
-
-interface BoardInfoObject {
-    // startTime: string;
-    // endTime: string;
-    // event: string;
-    // openning: string;
-    // title: string;
-    // timeLimit: string;
-    // timeSpend: string;
-    // site: string;
-    // published: string;
-    // remarks: string;
-    // nameSente: string;
-    // nameGote: string;
-    // handicap: string;
-    [index: string]: string;
-}
 
 export class KifuLoader {
     board: string[][];
@@ -82,62 +64,24 @@ export class KifuLoader {
         this.moves = this.parseMove(kifText);
     }
 
-    transKifText(
-        kifText: string | null,
-        kifReg: RegExp,
-        boardInfo: BoardInfoObject
-    ): void {
-        const bordInfoNames: Dictionary = {
-            // KIF , KI2
-            開始日時: "startTime",
-            終了日時: "endTime",
-            棋戦: "event",
-            戦型: "openning",
-            表題: "title",
-            持ち時間: "timeLimit",
-            消費時間: "timeSpend",
-            場所: "site",
-            掲載: "published",
-            備考: "remarks",
-            先手: "nameSente",
-            後手: "nameGote",
-            上手: "nameSente",
-            下手: "nameGote",
-            先手省略名: "nameSenteAbbreviation",
-            後手省略名: "nameGoteAbbreviation",
-            手合割: "handicap",
-            // CSA
-            "N+": "nameSente",
-            "N-": "nameGote",
-            $EVENT: "event",
-            $SITE: "site",
-            $START_TIME: "startTime",
-            $END_TIME: "endTime",
-            $TIME_LIMIT: "timeLimit",
-            $OPENING: "openning"
-        };
+    parseEvent(kif: string | null): object {
+        const translater = new Translater;
 
-        const info: string[] = kifText.match(kifReg);
-        const keyName = bordInfoNames[info[1]];
-        boardInfo[keyName] = info[2];
-    }
-
-    parseEvent(kif: string | null): Dictionary {
-        const boardInfo: BoardInfoObject = {};
+        const boardInfo: boardInfo = {};
 
         const kifArray: string[] = kif.split(/\r?\n/);
         kifArray.map(kifLine => {
             // Kif, Ki2 format
             if (kifLine.indexOf("：") > -1) {
-                this.transKifText(kifLine, /^(.+?)：(.+)$/, boardInfo);
+                translater.transKifText(kifLine, /^(.+?)：(.+)$/, boardInfo);
             }
             // Csa format
             if (kifLine.indexOf("$") > -1) {
-                this.transKifText(kifLine, /^(\$.+?):(.+)$/, boardInfo);
+                translater.transKifText(kifLine, /^(\$.+?):(.+)$/, boardInfo);
             }
             // Csa player name format
             if (/N[+-]/.test(kifLine)) {
-                this.transKifText(kifLine, /^(N[+-])(.+)$/, boardInfo);
+                translater.transKifText(kifLine, /^(N[+-])(.+)$/, boardInfo);
             }
         });
 

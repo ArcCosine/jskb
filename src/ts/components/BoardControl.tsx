@@ -5,6 +5,7 @@ export interface BoardControlProps {
     controlIndex: number;
     onPreviouse: ()=> void;
     onNext: ()=> void;
+    onRotate: ()=> void;
 }
 
 export class BoardControl extends React.Component<BoardControlProps, {}> {
@@ -16,6 +17,7 @@ export class BoardControl extends React.Component<BoardControlProps, {}> {
                 this.props.onPreviouse();
                 break;
             case '1':
+                this.props.onRotate();
                 break;
             case '2':
                 this.props.onNext();
@@ -28,7 +30,7 @@ export class BoardControl extends React.Component<BoardControlProps, {}> {
 
     render() {
         return( 
-            <button value={this.props.controlIndex} onClick={this.handleClick.bind(this)}>{this.props.text}</button>
+            <button className="jskb-btn" value={this.props.controlIndex} onClick={this.handleClick.bind(this)}>{this.props.text}</button>
         );
     }
 }

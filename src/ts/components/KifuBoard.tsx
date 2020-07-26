@@ -11,21 +11,45 @@ export interface KifuBoardProps {
     geta: number;
 }
 
-export class KifuBoard extends React.Component<KifuBoardProps, {}> {
-
-    next(){
-        console.log(this.props.loader);
-        this.props.loader.movePiece(1);
+export class KifuBoard extends React.Component<KifuBoardProps, { boards: string[][] }> {
+    constructor(props: any) {
+        super(props);
+        this.next = this.next.bind(this);
+        this.previouse = this.previouse.bind(this);
+        this.rotate = this.rotate.bind(this);
+        this.state = {
+            boards: this.props.loader.getBoard()
+        };
     }
 
-    previouse(){
+    next() {
+        // console.log('next');
+        this.props.loader.movePiece(1);
+        this.setState({ boards: this.props.loader.getBoard() });
+    }
+
+    previouse() {
         this.props.loader.movePiece(-1);
+        this.setState({ boards: this.props.loader.getBoard() });
+    }
+
+    rotate() {
+        console.log("rotate");
     }
 
     render() {
         const viewBox = `0 0 ${this.props.width} ${this.props.height}`;
         const controls = ["戻る", "盤面反転", "進む"].map((text, index) => {
-            return <BoardControl key={index} text={text} controlIndex={index} onPreviouse={this.previouse}  onNext={this.next} />;
+            return (
+                <BoardControl
+                    key={index}
+                    text={text}
+                    controlIndex={index}
+                    onPreviouse={this.previouse}
+                    onNext={this.next}
+                    onRotate={this.rotate}
+                />
+            );
         });
 
         return (
@@ -48,7 +72,7 @@ export class KifuBoard extends React.Component<KifuBoardProps, {}> {
                         ></rect>
                     </g>
                     <BoardView
-                        loader={this.props.loader}
+                        boards={this.state.boards}
                         geta={this.props.geta}
                         basesize={this.props.basesize}
                     />

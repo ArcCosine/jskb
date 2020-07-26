@@ -8,18 +8,18 @@ it("pieceAlphabetToCharactor test", () => {
     expect(translater.pieceAlphabetToCharactor("あああ")).toEqual("あああ");
 });
 
-it("counterNumberToCharactor test", () => {
-    expect(translater.counterNumberToCharactor(0)).toEqual("〇");
-    expect(translater.counterNumberToCharactor(9)).toEqual("九");
-    expect(translater.counterNumberToCharactor(-1)).toEqual("");
-    expect(translater.counterNumberToCharactor(-11)).toEqual("");
+it("numberToCharactor test", () => {
+    expect(translater.numberToCharactor(0)).toEqual("〇");
+    expect(translater.numberToCharactor(9)).toEqual("九");
+    expect(translater.numberToCharactor(-1)).toEqual("");
+    expect(translater.numberToCharactor(-11)).toEqual("");
 });
 
-it("counterNumberToFullWidth test", () => {
-    expect(translater.counterNumberToFullWidth(0)).toEqual("０");
-    expect(translater.counterNumberToFullWidth(9)).toEqual("９");
-    expect(translater.counterNumberToFullWidth(-1)).toEqual("");
-    expect(translater.counterNumberToFullWidth(11)).toEqual("");
+it("numberToFullWidth test", () => {
+    expect(translater.numberToFullWidth(0)).toEqual("０");
+    expect(translater.numberToFullWidth(9)).toEqual("９");
+    expect(translater.numberToFullWidth(-1)).toEqual("");
+    expect(translater.numberToFullWidth(11)).toEqual("");
 });
 
 it("fullWidthToNumber test", () => {

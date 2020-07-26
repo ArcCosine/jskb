@@ -11,19 +11,21 @@ export class NumberItem extends React.Component<NumberItemProps, {}> {
 
     render() {
         const translater = new Translater();
-        const fullWidthCounter = translater.counterNumberToFullWidth(
+        const fullWidthCounter = translater.numberToFullWidth(
             this.props.counter
         );
 
-        const characotrCounter = translater.counterNumberToCharactor(
+        const characotrCounter = translater.numberToCharactor(
             this.props.counter
         );
+        const numPos:number = (this.props.basesize * 10);
+
         return (
             <React.Fragment>
-                <text x={595 - (this.props.counter * this.props.basesize)} y="24" className="piece">
+                <text x={numPos- (this.props.counter * this.props.basesize)} y={(this.props.geta/2)} className="piece">
                     {fullWidthCounter}
                 </text>
-                <text x="595" y={this.props.counter * this.props.basesize + 18} className="piece">
+                <text x={numPos} y={this.props.counter * this.props.basesize+(this.props.geta/2)} className="piece">
                     {characotrCounter}
                 </text>
             </React.Fragment>
