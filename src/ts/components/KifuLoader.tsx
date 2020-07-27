@@ -54,10 +54,26 @@ export class KifuLoader {
 
     movePiece(num:number): void {
         this.pos = this.pos + num;
-        const direction = (this.pos % 2 !== 0) ? '-' : '+'
-        const moveData = this.moves["history"][this.pos];
-        this.board[moveData.y-1][9-moveData.x] = direction + moveData.piece;
-        this.board[moveData.beforeY-1][9-moveData.beforeX] = '*';
+        if( this.pos < -1 ){
+            this.pos = -1;
+            return;
+        }
+
+        if( num > 0 ){
+            const moveData =  this.moves["history"][this.pos];
+            const direction = (this.pos % 2 !== 0) ? '-' : '+'
+            console.log(moveData);
+
+            this.board[moveData.y-1][9-moveData.x] = direction + moveData.piece;
+            this.board[moveData.beforeY-1][9-moveData.beforeX] = '*';
+        } else {
+            const moveData =  this.moves["history"][this.pos+1];
+            const direction = (this.pos % 2 !== 0) ? '+' : '-'
+
+            this.board[moveData.beforeY-1][9-moveData.beforeX] = direction + moveData.piece;
+            this.board[moveData.y-1][9-moveData.x] = '*';
+
+        }
     }
 
     loadKifu( kifText:string ){

@@ -21,7 +21,7 @@ it("Kif Format Test", () => {
         nameGote: "後手の対局者名"
     });
 
-    loader.loadKifu(withLineBreak)
+    loader.loadKifu(withLineBreak);
     expect(loader.getMoves()).toEqual({
         history: [
             {
@@ -54,38 +54,48 @@ it("Kif Format Test", () => {
         ]
     });
 
-    // add one
+    // next one
     loader.loadKifu(withLineBreak);
     loader.movePiece(1);
-    expect(loader.getBoard()).toEqual(
-        [
-            ["-KY","-KE","-GI","-KI","-OU","-KI","-GI","-KE","-KY"],
-            ["*","-HI","*","*","*","*","*","-KA","*"],
-            ["-FU","-FU","-FU","-FU","-FU","-FU","-FU","-FU","-FU"],
-            ["*","*","*","*","*","*","*","*","*"],
-            ["*","*","*","*","*","*","*","*","*"],
-            ["*","*","+FU","*","*","*","*","*","*"],
-            ["+FU","+FU","*","+FU","+FU","+FU","+FU","+FU","+FU"],
-            ["*","+KA","*","*","*","*","*","+HI","*"],
-            ["+KY","+KE","+GI","+KI","+OU","+KI","+GI","+KE","+KY"],
-        ]
-    );
+    expect(loader.getBoard()).toEqual([
+        ["-KY", "-KE", "-GI", "-KI", "-OU", "-KI", "-GI", "-KE", "-KY"],
+        ["*", "-HI", "*", "*", "*", "*", "*", "-KA", "*"],
+        ["-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "-FU"],
+        ["*", "*", "*", "*", "*", "*", "*", "*", "*"],
+        ["*", "*", "*", "*", "*", "*", "*", "*", "*"],
+        ["*", "*", "+FU", "*", "*", "*", "*", "*", "*"],
+        ["+FU", "+FU", "*", "+FU", "+FU", "+FU", "+FU", "+FU", "+FU"],
+        ["*", "+KA", "*", "*", "*", "*", "*", "+HI", "*"],
+        ["+KY", "+KE", "+GI", "+KI", "+OU", "+KI", "+GI", "+KE", "+KY"]
+    ]);
 
-    // add one
-    loader.movePiece(1)
-    expect(loader.getBoard()).toEqual(
-        [
-            ["-KY","-KE","-GI","-KI","-OU","-KI","-GI","-KE","-KY"],
-            ["*","-HI","*","*","*","*","*","-KA","*"],
-            ["-FU","-FU","-FU","-FU","-FU","-FU","*","-FU","-FU"],
-            ["*","*","*","*","*","*","-FU","*","*"],
-            ["*","*","*","*","*","*","*","*","*"],
-            ["*","*","+FU","*","*","*","*","*","*"],
-            ["+FU","+FU","*","+FU","+FU","+FU","+FU","+FU","+FU"],
-            ["*","+KA","*","*","*","*","*","+HI","*"],
-            ["+KY","+KE","+GI","+KI","+OU","+KI","+GI","+KE","+KY"],
-        ]
-    );
+    // next one
+    loader.movePiece(1);
+    expect(loader.getBoard()).toEqual([
+        ["-KY", "-KE", "-GI", "-KI", "-OU", "-KI", "-GI", "-KE", "-KY"],
+        ["*", "-HI", "*", "*", "*", "*", "*", "-KA", "*"],
+        ["-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "-FU"],
+        ["*", "*", "*", "*", "*", "*", "*", "*", "*"],
+        ["*", "*", "*", "*", "*", "*", "*", "*", "*"],
+        ["*", "*", "+FU", "*", "*", "*", "*", "*", "*"],
+        ["+FU", "+FU", "*", "+FU", "+FU", "+FU", "+FU", "+FU", "+FU"],
+        ["*", "+KA", "*", "*", "*", "*", "*", "+HI", "*"],
+        ["+KY", "+KE", "+GI", "+KI", "+OU", "+KI", "+GI", "+KE", "+KY"]
+    ]);
+
+    // previouse one
+    loader.movePiece(-1);
+    expect(loader.getBoard()).toEqual([
+        ["-KY", "-KE", "-GI", "-KI", "-OU", "-KI", "-GI", "-KE", "-KY"],
+        ["*", "-HI", "*", "*", "*", "*", "*", "-KA", "*"],
+        ["-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "-FU"],
+        ["*", "*", "*", "*", "*", "*", "*", "*", "*"],
+        ["*", "*", "*", "*", "*", "*", "*", "*", "*"],
+        ["*", "*", "+FU", "*", "*", "*", "*", "*", "*"],
+        ["+FU", "+FU", "*", "+FU", "+FU", "+FU", "+FU", "+FU", "+FU"],
+        ["*", "+KA", "*", "*", "*", "*", "*", "+HI", "*"],
+        ["+KY", "+KE", "+GI", "+KI", "+OU", "+KI", "+GI", "+KE", "+KY"]
+    ]);
 });
 
 /*it("Ki2 File Format Test", () => {
@@ -343,7 +353,7 @@ T6
         openning: "YAGURA"
     });
 
-    loader.loadKifu(withLineBreak)
+    loader.loadKifu(withLineBreak);
     expect(loader.getMoves()).toEqual({
         history: [
             {
@@ -375,5 +385,4 @@ T6
             }
         ]
     });
-
 });
