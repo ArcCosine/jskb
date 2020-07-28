@@ -38,6 +38,8 @@ it("pieceCharactorToAlphabet test", () => {
     expect(translater.pieceCharactorToAlphabet("歩")).toEqual("FU");
     expect(translater.pieceCharactorToAlphabet("金")).toEqual("KI");
     expect(translater.pieceCharactorToAlphabet("成銀")).toEqual("NG");
+    expect(translater.pieceCharactorToAlphabet("角成")).toEqual("UM");
+    expect(translater.pieceCharactorToAlphabet("歩成")).toEqual("TO");
     expect(translater.pieceCharactorToAlphabet("あああ")).toEqual("あああ");
 });
 
@@ -45,5 +47,6 @@ it("statusCharactorToAlphabet test", () => {
     expect(translater.statusCharactorToAlphabet("投了")).toEqual("TORYO");
     expect(translater.statusCharactorToAlphabet("中断")).toEqual("CHUDAN");
     expect(translater.statusCharactorToAlphabet("持将棋")).toEqual("JISHOGI");
+    expect(translater.statusCharactorToAlphabet("持将棋                       ")).toEqual("JISHOGI");
     expect(translater.statusCharactorToAlphabet("あああ")).toEqual("あああ");
 });

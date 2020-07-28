@@ -10,9 +10,12 @@ it("Kif Format Test", () => {
 先手：先手の対局者名
 後手：後手の対局者名
 手数----指手---------消費時間-- # この行は、なくてもいい
-1 ７六歩(77) ( 0:16/00:00:16)
-2 ３四歩(33) ( 0:00/00:00:00)
-3 中断 ( 0:03/ 0:00:19)`;
+   1 ７六歩(77)   ( 0:01/00:00:01)
+   2 ３四歩(33)   ( 0:01/00:00:01)
+   3 ２二角成(88) ( 0:13/00:00:14)
+   4 同　銀(31)   ( 0:03/00:00:04)
+   5 中断         ( 0:02/00:00:16)
+まで4手で中断`;
     expect(loader.parseEvent(withLineBreak)).toEqual({
         startTime: "1999/07/15(木) 19:07:12",
         endTime: "1999/07/15(木) 19:07:17",
@@ -29,7 +32,6 @@ it("Kif Format Test", () => {
                 y: 6,
                 beforeX: 7,
                 beforeY: 7,
-                reverse: false,
                 piece: "FU",
                 status: null
             },
@@ -38,8 +40,23 @@ it("Kif Format Test", () => {
                 y: 4,
                 beforeX: 3,
                 beforeY: 3,
-                reverse: false,
                 piece: "FU",
+                status: null
+            },
+            {
+                x: 2,
+                y: 2,
+                beforeX: 8,
+                beforeY: 8,
+                piece: "UM",
+                status: null
+            },
+            {
+                x: 2,
+                y: 2,
+                beforeX: 3,
+                beforeY: 1,
+                piece: "GI",
                 status: null
             },
             {
@@ -47,7 +64,6 @@ it("Kif Format Test", () => {
                 y: null,
                 beforeX: null,
                 beforeY: null,
-                reverse: null,
                 piece: null,
                 status: "CHUDAN"
             }
@@ -74,8 +90,8 @@ it("Kif Format Test", () => {
     expect(loader.getBoard()).toEqual([
         ["-KY", "-KE", "-GI", "-KI", "-OU", "-KI", "-GI", "-KE", "-KY"],
         ["*", "-HI", "*", "*", "*", "*", "*", "-KA", "*"],
-        ["-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "-FU"],
-        ["*", "*", "*", "*", "*", "*", "*", "*", "*"],
+        ["-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "*", "-FU", "-FU"],
+        ["*", "*", "*", "*", "*", "*", "-FU", "*", "*"],
         ["*", "*", "*", "*", "*", "*", "*", "*", "*"],
         ["*", "*", "+FU", "*", "*", "*", "*", "*", "*"],
         ["+FU", "+FU", "*", "+FU", "+FU", "+FU", "+FU", "+FU", "+FU"],
@@ -83,17 +99,51 @@ it("Kif Format Test", () => {
         ["+KY", "+KE", "+GI", "+KI", "+OU", "+KI", "+GI", "+KE", "+KY"]
     ]);
 
+    // next one
+    loader.movePiece(1);
+    expect(loader.getBoard()).toEqual([
+        ["-KY", "-KE", "-GI", "-KI", "-OU", "-KI", "-GI", "-KE", "-KY"],
+        ["*", "-HI", "*", "*", "*", "*", "*", "+UM", "*"],
+        ["-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "*", "-FU", "-FU"],
+        ["*", "*", "*", "*", "*", "*", "-FU", "*", "*"],
+        ["*", "*", "*", "*", "*", "*", "*", "*", "*"],
+        ["*", "*", "+FU", "*", "*", "*", "*", "*", "*"],
+        ["+FU", "+FU", "*", "+FU", "+FU", "+FU", "+FU", "+FU", "+FU"],
+        ["*", "*", "*", "*", "*", "*", "*", "+HI", "*"],
+        ["+KY", "+KE", "+GI", "+KI", "+OU", "+KI", "+GI", "+KE", "+KY"]
+    ]);
+    expect(loader.getPieceSente()).toEqual({
+        KA: 1
+    });
+
+    // next one
+    loader.movePiece(1);
+    expect(loader.getBoard()).toEqual([
+        ["-KY", "-KE", "-GI", "-KI", "-OU", "-KI", "*", "-KE", "-KY"],
+        ["*", "-HI", "*", "*", "*", "*", "*", "-GI", "*"],
+        ["-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "*", "-FU", "-FU"],
+        ["*", "*", "*", "*", "*", "*", "-FU", "*", "*"],
+        ["*", "*", "*", "*", "*", "*", "*", "*", "*"],
+        ["*", "*", "+FU", "*", "*", "*", "*", "*", "*"],
+        ["+FU", "+FU", "*", "+FU", "+FU", "+FU", "+FU", "+FU", "+FU"],
+        ["*", "*", "*", "*", "*", "*", "*", "+HI", "*"],
+        ["+KY", "+KE", "+GI", "+KI", "+OU", "+KI", "+GI", "+KE", "+KY"]
+    ]);
+    expect(loader.getPieceGote()).toEqual({
+        KA: 1
+    });
+
     // previouse one
     loader.movePiece(-1);
     expect(loader.getBoard()).toEqual([
         ["-KY", "-KE", "-GI", "-KI", "-OU", "-KI", "-GI", "-KE", "-KY"],
-        ["*", "-HI", "*", "*", "*", "*", "*", "-KA", "*"],
-        ["-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "-FU"],
-        ["*", "*", "*", "*", "*", "*", "*", "*", "*"],
+        ["*", "-HI", "*", "*", "*", "*", "*", "+UM", "*"],
+        ["-FU", "-FU", "-FU", "-FU", "-FU", "-FU", "*", "-FU", "-FU"],
+        ["*", "*", "*", "*", "*", "*", "-FU", "*", "*"],
         ["*", "*", "*", "*", "*", "*", "*", "*", "*"],
         ["*", "*", "+FU", "*", "*", "*", "*", "*", "*"],
         ["+FU", "+FU", "*", "+FU", "+FU", "+FU", "+FU", "+FU", "+FU"],
-        ["*", "+KA", "*", "*", "*", "*", "*", "+HI", "*"],
+        ["*", "*", "*", "*", "*", "*", "*", "+HI", "*"],
         ["+KY", "+KE", "+GI", "+KI", "+OU", "+KI", "+GI", "+KE", "+KY"]
     ]);
 });
@@ -134,7 +184,6 @@ it("Kif Format Test", () => {
                 y: 6,
                 beforeX: 2,
                 beforeY: 7,
-                reverse: false,
                 piece: "FU"
             },
             {
@@ -142,7 +191,6 @@ it("Kif Format Test", () => {
                 y: 4,
                 beforeX: 8,
                 beforeY: 3,
-                reverse: false,
                 piece: "FU"
             },
             {
@@ -150,7 +198,6 @@ it("Kif Format Test", () => {
                 y: 5,
                 beforeX: 2,
                 beforeY: 6,
-                reverse: false,
                 piece: "FU"
             },
             {
@@ -158,7 +205,6 @@ it("Kif Format Test", () => {
                 y: 5,
                 beforeX: 8,
                 beforeY: 4,
-                reverse: false,
                 piece: "FU"
             },
             {
@@ -166,7 +212,6 @@ it("Kif Format Test", () => {
                 y: 6,
                 beforeX: 7,
                 beforeY: 7,
-                reverse: false,
                 piece: "FU"
             },
             {
@@ -174,7 +219,6 @@ it("Kif Format Test", () => {
                 y: 2,
                 beforeX: 4,
                 beforeY: 1,
-                reverse: false,
                 piece: "KI"
             },
             {
@@ -182,7 +226,6 @@ it("Kif Format Test", () => {
                 y: 7,
                 beforeX: 8,
                 beforeY: 8,
-                reverse: false,
                 piece: "KA"
             },
             {
@@ -190,7 +233,6 @@ it("Kif Format Test", () => {
                 y: 4,
                 beforeX: 3,
                 beforeY: 3,
-                reverse: false,
                 piece: "FU"
             },
             {
@@ -198,7 +240,6 @@ it("Kif Format Test", () => {
                 y: 8,
                 beforeX: 7,
                 beforeY: 9,
-                reverse: false,
                 piece: "GI"
             },
             {
@@ -206,7 +247,6 @@ it("Kif Format Test", () => {
                 y: 7,
                 beforeX: 2,
                 beforeY: 2,
-                reverse: true,
                 piece: "UM"
             },
             {
@@ -214,7 +254,6 @@ it("Kif Format Test", () => {
                 y: 7,
                 beforeX: 6,
                 beforeY: 8,
-                reverse: false,
                 piece: "GI"
             },
             {
@@ -222,7 +261,6 @@ it("Kif Format Test", () => {
                 y: 2,
                 beforeX: 3,
                 beforeY: 1,
-                reverse: false,
                 piece: "GI"
             },
             {
@@ -230,7 +268,6 @@ it("Kif Format Test", () => {
                 y: 8,
                 beforeX: 6,
                 beforeY: 9,
-                reverse: false,
                 piece: "GI"
             },
             {
@@ -238,7 +275,6 @@ it("Kif Format Test", () => {
                 y: 2,
                 beforeX: 7,
                 beforeY: 1,
-                reverse: false,
                 piece: "GI"
             },
             {
@@ -246,7 +282,6 @@ it("Kif Format Test", () => {
                 y: 6,
                 beforeX: 3,
                 beforeY: 7,
-                reverse: false,
                 piece: "FU"
             },
             {
@@ -254,7 +289,6 @@ it("Kif Format Test", () => {
                 y: 3,
                 beforeX: 2,
                 beforeY: 2,
-                reverse: false,
                 piece: "GI"
             },
             {
@@ -262,7 +296,6 @@ it("Kif Format Test", () => {
                 y: 8,
                 beforeX: 6,
                 beforeY: 9,
-                reverse: false,
                 piece: "KI"
             },
             {
@@ -270,7 +303,6 @@ it("Kif Format Test", () => {
                 y: 4,
                 beforeX: 6,
                 beforeY: 3,
-                reverse: false,
                 piece: "FU"
             },
             {
@@ -278,7 +310,6 @@ it("Kif Format Test", () => {
                 y: 8,
                 beforeX: 5,
                 beforeY: 9,
-                reverse: false,
                 piece: "OU"
             },
             {
@@ -286,7 +317,6 @@ it("Kif Format Test", () => {
                 y: 3,
                 beforeX: 7,
                 beforeY: 2,
-                reverse: false,
                 piece: "GI"
             },
             {
@@ -294,7 +324,6 @@ it("Kif Format Test", () => {
                 y: null,
                 beforeX: null,
                 beforeY: null,
-                reverse: null,
                 piece: null,
                 status: "TORYO"
             }
@@ -361,7 +390,6 @@ T6
                 y: 6,
                 beforeX: 2,
                 beforeY: 7,
-                reverse: false,
                 piece: "FU",
                 status: null
             },
@@ -370,7 +398,6 @@ T6
                 y: 4,
                 beforeX: 3,
                 beforeY: 3,
-                reverse: false,
                 piece: "FU",
                 status: null
             },
@@ -379,7 +406,6 @@ T6
                 y: null,
                 beforeX: null,
                 beforeY: null,
-                reverse: null,
                 piece: null,
                 status: "CHUDAN"
             }

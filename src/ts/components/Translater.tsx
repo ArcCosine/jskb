@@ -77,6 +77,26 @@ export class Translater {
     }
 
     pieceCharactorToAlphabet(text: string | null): string {
+        let transText = text;
+        // special case
+        if( transText.indexOf("成") > 0){
+
+            const charactorObject: { [index: string]: string } = {
+                "歩成" : "と",
+                "香成": "成香",
+                "桂成": "成桂",
+                "銀成": "成銀",
+                "金成": "成金",
+                "角成": "馬",
+                "飛成": "龍",
+            }
+            transText = typeof charactorObject[transText] !== "undefined"
+                ? charactorObject[transText]
+                : text
+        }
+
+
+
         const charactorObject: { [index: string]: string } = {
             歩: "FU",
             香: "KY",
@@ -95,12 +115,14 @@ export class Translater {
             龍: "RY"
         };
 
-        return typeof charactorObject[text] !== "undefined"
-            ? charactorObject[text]
+        return typeof charactorObject[transText] !== "undefined"
+            ? charactorObject[transText]
             : text;
     }
 
     statusCharactorToAlphabet(text: string | null): string {
+        let transText = text.replace(/ +/g,'');
+
         const charactorObject: { [index: string]: string } = {
             投了: "TORYO",
             中断: "CHUDAN",
@@ -117,9 +139,9 @@ export class Translater {
             不詰: "FUZUMI",
             エラー: "ERROR"
         };
-        return typeof charactorObject[text] !== "undefined"
-            ? charactorObject[text]
-            : text;
+        return typeof charactorObject[transText] !== "undefined"
+            ? charactorObject[transText]
+            : transText;
     }
 
     transKifText(
