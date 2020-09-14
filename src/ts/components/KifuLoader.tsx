@@ -30,6 +30,8 @@ export class KifuLoader {
 
     constructor() {
         this.initBoard();
+        this.pieceGote = {};
+        this.pieceSente = {};
         this.pos = -1;
     }
 
@@ -158,7 +160,7 @@ export class KifuLoader {
                     const boardPiece = board[y - 1][9 - x];
                     if (boardPiece !== "*") {
                         if (boardPiece.indexOf("-") > -1) {
-                            const flatPiece = boardPiece.replace(/-/, "");
+                            const flatPiece = boardPiece.replace(/[-]/, "");
                             if (
                                 typeof this.pieceSente[flatPiece] ===
                                 "undefined"
@@ -167,7 +169,7 @@ export class KifuLoader {
                             }
                             this.pieceSente[flatPiece] + 1;
                         } else {
-                            const flatPiece = boardPiece.replace(/+/, "");
+                            const flatPiece = boardPiece.replace(/[+]/, "");
                             if (
                                 typeof this.pieceGote[flatPiece] === "undefined"
                             ) {
