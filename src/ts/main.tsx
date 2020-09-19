@@ -6,6 +6,7 @@ import * as ReactDOM from 'react-dom';
 import { KifuBoard } from './components/KifuBoard';
 import { KifuLoader } from './components/KifuLoader';
 
+
 const loader = new KifuLoader();
 const withLineBreak = `開始日時：2020/07/23 10:00:00
 終了日時：2020/07/23 21:56:00
