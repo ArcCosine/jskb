@@ -23,7 +23,6 @@ export class KifuBoard extends React.Component<KifuBoardProps, { boards: string[
     }
 
     next() {
-        // console.log('next');
         this.props.loader.movePiece(1);
         this.setState({ boards: this.props.loader.getBoard() });
     }

@@ -61,9 +61,9 @@ export class Translater {
             "+OU": "王",
             "-OU": "玉",
             TO: "と",
-            NY: "成香",
-            NK: "成桂",
-            NG: "成銀",
+            NY: "杏",
+            NK: "圭",
+            NG: "全",
             UM: "馬",
             RY: "龍",
             "*": ""
@@ -83,10 +83,9 @@ export class Translater {
 
             const charactorObject: { [index: string]: string } = {
                 "歩成" : "と",
-                "香成": "成香",
-                "桂成": "成桂",
-                "銀成": "成銀",
-                "金成": "成金",
+                "香成": "杏",
+                "桂成": "圭",
+                "銀成": "全",
                 "角成": "馬",
                 "飛成": "龍",
             }
@@ -108,9 +107,9 @@ export class Translater {
             王: "OU",
             玉: "OU",
             と: "TO",
-            成香: "NY",
-            成桂: "NK",
-            成銀: "NG",
+            杏: "NY",
+            圭: "NK",
+            全: "NG",
             馬: "UM",
             龍: "RY"
         };

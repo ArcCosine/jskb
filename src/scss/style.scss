@@ -11,15 +11,16 @@ body {
 section {
     @include reset();
     margin: 60px auto;
-    width: 600px;
+    max-width: 600px;
 }
 
 #jskb {
-    max-width: 650px;
-    margin: auto;
+    width: 90vw;
+    max-width: 600px;
+    margin: 0px auto;
     svg {
-width: 100%;
-    height: auto;
+        width: 100%;
+        height: auto;
     }
 }
 
