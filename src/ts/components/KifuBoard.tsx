@@ -11,25 +11,35 @@ export interface KifuBoardProps {
     geta: number;
 }
 
-export class KifuBoard extends React.Component<KifuBoardProps, { boards: string[][] }> {
+export class KifuBoard extends React.Component<KifuBoardProps, { boards: string[][], pieceSente: {}, pieceGote: {} }> {
     constructor(props: any) {
         super(props);
         this.next = this.next.bind(this);
         this.previouse = this.previouse.bind(this);
         this.rotate = this.rotate.bind(this);
         this.state = {
-            boards: this.props.loader.getBoard()
+            boards: this.props.loader.getBoard(),
+            pieceSente: this.props.loader.getPieceSente(),
+            pieceGote: this.props.loader.getPieceGote()
         };
     }
 
     next() {
         this.props.loader.movePiece(1);
-        this.setState({ boards: this.props.loader.getBoard() });
+        this.setState({ 
+            boards: this.props.loader.getBoard(),
+            pieceSente: this.props.loader.getPieceSente(),
+            pieceGote: this.props.loader.getPieceGote()
+        });
     }
 
     previouse() {
         this.props.loader.movePiece(-1);
-        this.setState({ boards: this.props.loader.getBoard() });
+        this.setState({ 
+            boards: this.props.loader.getBoard(),
+            pieceSente: this.props.loader.getPieceSente(),
+            pieceGote: this.props.loader.getPieceGote()
+        });
     }
 
     rotate() {
@@ -74,6 +84,8 @@ export class KifuBoard extends React.Component<KifuBoardProps, { boards: string[
                         boards={this.state.boards}
                         geta={this.props.geta}
                         basesize={this.props.basesize}
+                        pieceSente={this.state.pieceSente}
+                        pieceGote={this.state.pieceSente}
                     />
                 </svg>
                 <div className="jskb-control">{controls}</div>
