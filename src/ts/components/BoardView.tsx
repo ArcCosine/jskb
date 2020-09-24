@@ -5,8 +5,6 @@ import { Translater } from "./Translater";
 
 export interface BoardViewProps {
     boards: string[][];
-    geta: number;
-    basesize: number;
     pieceSente: {};
     pieceGote: {};
 }
@@ -27,14 +25,12 @@ export class BoardView extends React.Component<BoardViewProps, {}> {
                         y={y}
                         piece={formattedPiece}
                         isGote={/-/.test(piece)}
-                        basesize={this.props.basesize}
-                        geta={this.props.geta}
                     />
                 );
             });
         });
         const numberItems = [1, 2, 3, 4, 5, 6, 7, 8, 9].map(counter => {
-            return <NumberItem key={counter} counter={counter} basesize={this.props.basesize} geta={this.props.geta} />;
+            return <NumberItem key={counter} counter={counter}  />;
         });
         const sentePiece = '先手持ち駒';
         const gotePiece = '後手持ち駒';
@@ -42,7 +38,7 @@ export class BoardView extends React.Component<BoardViewProps, {}> {
             <React.Fragment>
                 <g>{rectItems}</g>
                 <g><text x="0" y="630">{sentePiece}</text></g>
-                <g><text x="0" y="0">{gotePiece}</text></g>
+                <g><text x="0" y="20">{gotePiece}</text></g>
                 <g>{numberItems}</g>
             </React.Fragment>
         );

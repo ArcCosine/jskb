@@ -7,8 +7,6 @@ export interface KifuBoardProps {
     width: number;
     height: number;
     loader: KifuLoader;
-    basesize: number;
-    geta: number;
 }
 
 export class KifuBoard extends React.Component<KifuBoardProps, { boards: string[][], pieceSente: {}, pieceGote: {} }> {
@@ -73,17 +71,15 @@ export class KifuBoard extends React.Component<KifuBoardProps, { boards: string[
                 >
                     <g>
                         <rect
-                            x={this.props.geta}
-                            y={this.props.geta}
-                            width={this.props.basesize * 9}
-                            height={this.props.basesize * 9}
+                            x={0}
+                            y={60}
+                            width={540}
+                            height={540}
                             className="jskb-board"
                         ></rect>
                     </g>
                     <BoardView
                         boards={this.state.boards}
-                        geta={this.props.geta}
-                        basesize={this.props.basesize}
                         pieceSente={this.state.pieceSente}
                         pieceGote={this.state.pieceSente}
                     />
