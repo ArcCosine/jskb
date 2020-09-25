@@ -37,8 +37,8 @@ export class BoardView extends React.Component<BoardViewProps, {}> {
         return (
             <React.Fragment>
                 <g>{rectItems}</g>
-                <g><text x="0" y="630">{sentePiece}</text></g>
-                <g><text x="0" y="20">{gotePiece}</text></g>
+                <g><text x="6" y="630">{sentePiece}</text></g>
+                <g><text x="6" y="20">{gotePiece}</text></g>
                 <g>{numberItems}</g>
             </React.Fragment>
         );

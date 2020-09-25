@@ -5,6 +5,7 @@ const translater = new Translater();
 it("pieceAlphabetToCharactor test", () => {
     expect(translater.pieceAlphabetToCharactor("FU")).toEqual("歩");
     expect(translater.pieceAlphabetToCharactor("+OU")).toEqual("王");
+    expect(translater.pieceAlphabetToCharactor("-OU")).toEqual("玉");
     expect(translater.pieceAlphabetToCharactor("あああ")).toEqual("あああ");
 });
 
@@ -37,7 +38,7 @@ it("charactorToNumber test", () => {
 it("pieceCharactorToAlphabet test", () => {
     expect(translater.pieceCharactorToAlphabet("歩")).toEqual("FU");
     expect(translater.pieceCharactorToAlphabet("金")).toEqual("KI");
-    expect(translater.pieceCharactorToAlphabet("成銀")).toEqual("NG");
+    expect(translater.pieceCharactorToAlphabet("全")).toEqual("NG");
     expect(translater.pieceCharactorToAlphabet("角成")).toEqual("UM");
     expect(translater.pieceCharactorToAlphabet("歩成")).toEqual("TO");
     expect(translater.pieceCharactorToAlphabet("あああ")).toEqual("あああ");

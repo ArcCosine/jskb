@@ -133,6 +133,6 @@ const withLineBreak = `開始日時：2020/07/23 10:00:00
 112 投了 (00:00/00:00:00)`;
 loader.loadKifu(withLineBreak);
 ReactDOM.render(
-  <KifuBoard width={650} height={650} loader={loader} />,
+  <KifuBoard loader={loader} />,
   document.getElementById("jskb")
 );

@@ -4,8 +4,6 @@ import { BoardControl } from "./BoardControl";
 import { KifuLoader } from "./KifuLoader";
 
 export interface KifuBoardProps {
-    width: number;
-    height: number;
     loader: KifuLoader;
 }
 
@@ -45,7 +43,6 @@ export class KifuBoard extends React.Component<KifuBoardProps, { boards: string[
     }
 
     render() {
-        const viewBox = `0 0 ${this.props.width} ${this.props.height}`;
         const controls = ["戻る", "盤面反転", "進む"].map((text, index) => {
             return (
                 <BoardControl
@@ -65,16 +62,16 @@ export class KifuBoard extends React.Component<KifuBoardProps, { boards: string[
                     version="1.1"
                     baseProfile="full"
                     xmlns="http://www.w3.org/2000/svg"
-                    viewBox={viewBox}
-                    width={this.props.width}
-                    height={this.props.height}
+                    viewBox="0 0 650 650"
+                    width="650"
+                    height="650"
                 >
                     <g>
                         <rect
-                            x={0}
-                            y={60}
-                            width={540}
-                            height={540}
+                            x="6"
+                            y="60"
+                            width="540"
+                            height="540"
                             className="jskb-board"
                         ></rect>
                     </g>
