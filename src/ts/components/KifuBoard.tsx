@@ -78,7 +78,7 @@ export class KifuBoard extends React.Component<KifuBoardProps, { boards: string[
                     <BoardView
                         boards={this.state.boards}
                         pieceSente={this.state.pieceSente}
-                        pieceGote={this.state.pieceSente}
+                        pieceGote={this.state.pieceGote}
                     />
                 </svg>
                 <div className="jskb-control">{controls}</div>

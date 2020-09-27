@@ -21,7 +21,7 @@ export class NumberItem extends React.Component<NumberItemProps, {}> {
 
         return (
             <React.Fragment>
-                <text x={numPos- (this.props.counter * baseSize)} y={50} className="piece">
+                <text x={numPos- (this.props.counter * baseSize)} y="50" className="piece">
                     {fullWidthCounter}
                 </text>
                 <text x={numPos} y={this.props.counter * baseSize + 40 } className="piece">

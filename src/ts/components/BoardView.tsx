@@ -3,10 +3,13 @@ import { RectItem } from "./RectItem";
 import { NumberItem } from "./NumberItem";
 import { Translater } from "./Translater";
 
+interface pieceStatus {
+    [key: string]: number;
+}
 export interface BoardViewProps {
     boards: string[][];
-    pieceSente: {};
-    pieceGote: {};
+    pieceSente: pieceStatus;
+    pieceGote: pieceStatus;
 }
 
 export class BoardView extends React.Component<BoardViewProps, {}> {
@@ -32,7 +35,13 @@ export class BoardView extends React.Component<BoardViewProps, {}> {
         const numberItems = [1, 2, 3, 4, 5, 6, 7, 8, 9].map(counter => {
             return <NumberItem key={counter} counter={counter}  />;
         });
-        const sentePiece = '先手持ち駒';
+        let sentePieceTotal = '';
+        for( let key in this.props.pieceSente ){
+            if( this.props.pieceSente[key] > 0 ){
+                sentePieceTotal += this.props.pieceSente[key];
+            }
+        }
+        const sentePiece = '先手持ち駒' + sentePieceTotal;
         const gotePiece = '後手持ち駒';
         return (
             <React.Fragment>
