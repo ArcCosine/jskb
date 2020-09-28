@@ -41,8 +41,14 @@ export class BoardView extends React.Component<BoardViewProps, {}> {
                 sentePieceTotal += this.props.pieceSente[key];
             }
         }
+        let gotePieceTotal = '';
+        for( let key in this.props.pieceGote ){
+            if( this.props.pieceGote[key] > 0 ){
+                gotePieceTotal += this.props.pieceGote[key];
+            }
+        }
         const sentePiece = '先手持ち駒' + sentePieceTotal;
-        const gotePiece = '後手持ち駒';
+        const gotePiece = '後手持ち駒' + gotePieceTotal;
         return (
             <React.Fragment>
                 <g>{rectItems}</g>
