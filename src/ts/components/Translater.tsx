@@ -94,7 +94,9 @@ export class Translater {
                 : text
         }
 
-
+        if( transText.indexOf("打") > 0 ){
+            transText = transText.replace(/打/,'');
+        }
 
         const charactorObject: { [index: string]: string } = {
             歩: "FU",
