@@ -41,6 +41,7 @@ it("pieceCharactorToAlphabet test", () => {
     expect(translater.pieceCharactorToAlphabet("全")).toEqual("NG");
     expect(translater.pieceCharactorToAlphabet("角成")).toEqual("UM");
     expect(translater.pieceCharactorToAlphabet("歩成")).toEqual("TO");
+    expect(translater.pieceCharactorToAlphabet("歩打")).toEqual("FU");
     expect(translater.pieceCharactorToAlphabet("あああ")).toEqual("あああ");
 });
 
