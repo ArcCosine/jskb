@@ -22,6 +22,8 @@ export class KifuBoard extends React.Component<KifuBoardProps, { boards: string[
 
     next() {
         this.props.loader.movePiece(1);
+        // console.warn('先手:=', this.props.loader.getPieceSente());
+        // console.warn('後手:=', this.props.loader.getPieceGote());
         this.setState({ 
             boards: this.props.loader.getBoard(),
             pieceSente: this.props.loader.getPieceSente(),
@@ -31,6 +33,8 @@ export class KifuBoard extends React.Component<KifuBoardProps, { boards: string[
 
     previouse() {
         this.props.loader.movePiece(-1);
+        // console.error('先手:=', this.props.loader.getPieceSente());
+        // console.error('後手:=', this.props.loader.getPieceGote());
         this.setState({ 
             boards: this.props.loader.getBoard(),
             pieceSente: this.props.loader.getPieceSente(),

@@ -38,13 +38,13 @@ export class BoardView extends React.Component<BoardViewProps, {}> {
         let sentePieceTotal = '';
         for( let key in this.props.pieceSente ){
             if( this.props.pieceSente[key] > 0 ){
-                sentePieceTotal += this.props.pieceSente[key];
+                sentePieceTotal += translater.pieceAlphabetToCharactor(key) + this.props.pieceSente[key] + ' ';
             }
         }
         let gotePieceTotal = '';
         for( let key in this.props.pieceGote ){
             if( this.props.pieceGote[key] > 0 ){
-                gotePieceTotal += this.props.pieceGote[key];
+                gotePieceTotal += translater.pieceAlphabetToCharactor(key) + this.props.pieceGote[key] + ' ';
             }
         }
         const sentePiece = '先手持ち駒' + sentePieceTotal;

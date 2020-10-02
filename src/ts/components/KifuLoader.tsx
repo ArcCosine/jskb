@@ -65,18 +65,50 @@ export class KifuLoader {
         return this.pieceGote;
     }
 
+
+    updatePiece(boardPiece: string) : void {
+        if (boardPiece !== "*") {
+            const flatPiece = boardPiece.replace(/[-+]/, "");
+            if (boardPiece.indexOf("-") > -1) {
+                if (
+                    typeof this.pieceSente[flatPiece] ===
+                    "undefined"
+                ) {
+                    this.pieceSente[flatPiece] = 0;
+                }
+                this.pieceSente[flatPiece] = this.pieceSente[flatPiece] + 1;
+            } else {
+                if (
+                    typeof this.pieceGote[flatPiece] === "undefined"
+                ) {
+                    this.pieceGote[flatPiece] = 0;
+                }
+                this.pieceGote[flatPiece] = this.pieceGote[flatPiece] + 1;
+            }
+        }
+    }
+
+
     movePiece(num: number): void {
         this.pos = this.pos + num;
+
+        // initial status
         if (this.pos < -1) {
             this.pos = -1;
             return;
         }
 
+        // end status
+        if( this.pos > this.moves["history"].length ){
+            this.pos = this.pos - num;
+            return;
+        }
+
         if (num > 0) {
             const moveData = this.moves["history"][this.pos];
-            console.warn(moveData);
             const direction = this.pos % 2 !== 0 ? "-" : "+";
             if( moveData.x ){
+            this.updatePiece(this.board[moveData.y - 1][9 - moveData.x]);
             this.board[moveData.y - 1][9 - moveData.x] =
                 direction + moveData.piece;
             }
@@ -87,6 +119,7 @@ export class KifuLoader {
             const moveData = this.moves["history"][this.pos + 1];
             const direction = this.pos % 2 !== 0 ? "+" : "-";
             if( moveData.beforeX ){
+            this.updatePiece(this.board[moveData.beforeY - 1][9 - moveData.beforeX]);
             this.board[moveData.beforeY - 1][9 - moveData.beforeX] =
                 direction + moveData.piece;
             }

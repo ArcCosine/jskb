@@ -96,7 +96,6 @@ export class Translater {
 
         // special case 2
         if( transText.indexOf("打") > 0 ){
-            console.warn(transText);
             transText = transText.replace(/打/,'');
         }
 
