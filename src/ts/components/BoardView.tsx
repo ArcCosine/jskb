@@ -6,10 +6,12 @@ import { Translater } from "./Translater";
 interface pieceStatus {
     [key: string]: number;
 }
+
 export interface BoardViewProps {
     boards: string[][];
     pieceSente: pieceStatus;
     pieceGote: pieceStatus;
+    status: string;
 }
 
 export class BoardView extends React.Component<BoardViewProps, {}> {
@@ -47,14 +49,17 @@ export class BoardView extends React.Component<BoardViewProps, {}> {
                 gotePieceTotal += translater.pieceAlphabetToCharactor(key) + this.props.pieceGote[key] + ' ';
             }
         }
-        const sentePiece = '先手持ち駒' + sentePieceTotal;
-        const gotePiece = '後手持ち駒' + gotePieceTotal;
+        const sentePiece = `先手持ち駒 ${sentePieceTotal}`;
+        const gotePiece = `後手持ち駒 ${gotePieceTotal}`;
+
+        const statusItem = `${translater.statusAlphabetToCharactor(this.props.status)}`;
         return (
             <React.Fragment>
                 <g>{rectItems}</g>
                 <g><text x="6" y="630">{sentePiece}</text></g>
                 <g><text x="6" y="20">{gotePiece}</text></g>
                 <g>{numberItems}</g>
+                <g><text x="6" y="650">{statusItem}</text></g>
             </React.Fragment>
         );
     }

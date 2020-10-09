@@ -65,10 +65,16 @@ export class KifuLoader {
         return this.pieceGote;
     }
 
+    getStatus(): string {
+        return ( this.pos > -1 && this.moves["history"][this.pos].status ) ? this.moves["history"][this.pos].status : '';
+    }
+
 
     updatePiece(boardPiece: string) : void {
+        const translater = new Translater();
+
         if (boardPiece !== "*") {
-            const flatPiece = boardPiece.replace(/[-+]/, "");
+            const flatPiece = translater.reversePieceToTop(boardPiece.replace(/[-+]/, ""));
             if (boardPiece.indexOf("-") > -1) {
                 if (
                     typeof this.pieceSente[flatPiece] ===
@@ -99,12 +105,13 @@ export class KifuLoader {
         }
 
         // end status
-        if( this.pos > this.moves["history"].length ){
+        if( this.pos > this.moves["history"].length -1){
             this.pos = this.pos - num;
             return;
         }
 
         if (num > 0) {
+            // progress
             const moveData = this.moves["history"][this.pos];
             const direction = this.pos % 2 !== 0 ? "-" : "+";
             if( moveData.x ){
@@ -116,12 +123,14 @@ export class KifuLoader {
                 this.board[moveData.beforeY - 1][9 - moveData.beforeX] = "*";
             }
         } else {
+            // back
             const moveData = this.moves["history"][this.pos + 1];
+            console.error(moveData);
             const direction = this.pos % 2 !== 0 ? "+" : "-";
             if( moveData.beforeX ){
-            this.updatePiece(this.board[moveData.beforeY - 1][9 - moveData.beforeX]);
-            this.board[moveData.beforeY - 1][9 - moveData.beforeX] =
-                direction + moveData.piece;
+                this.updatePiece(this.board[moveData.beforeY - 1][9 - moveData.beforeX]);
+                this.board[moveData.beforeY - 1][9 - moveData.beforeX] =
+                    direction + moveData.piece;
             }
             if( moveData.x ){
                 this.board[moveData.y - 1][9 - moveData.x] = "*";
@@ -131,6 +140,7 @@ export class KifuLoader {
 
     loadKifu(kifText: string) {
         this.moves = this.parseMove(kifText);
+        // console.log(this.moves);
     }
 
     parseEvent(kif: string | null): object {

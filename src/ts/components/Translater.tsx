@@ -49,6 +49,21 @@ export class Translater {
         return "０１２３４５６７８９".indexOf(text);
     }
 
+    reversePieceToTop(text: string | null): string {
+        const charactorObject:{ [index: string]: string } ={
+            TO: "FU",
+            NY: "KY",
+            NK: "KE",
+            NG: "GI",
+            UM: "KA",
+            RY: "HI"
+        };
+
+        return typeof charactorObject[text] !== "undefined"
+            ? charactorObject[text]
+            : text;
+    }
+
     pieceAlphabetToCharactor(text: string | null): string {
         const charactorObject: { [index: string]: string } = {
             FU: "歩",
@@ -145,6 +160,31 @@ export class Translater {
             ? charactorObject[transText]
             : transText;
     }
+
+    statusAlphabetToCharactor(text: string | null): string {
+        let transText = text.replace(/ +/g,'');
+
+        const charactorObject: { [index: string]: string } = {
+            "TORYO": "投了",
+            "CHUDAN" : "中断",
+            "SENNICHITE": "千日手",
+            "TIME_UP" : "手番側が時間切れで負け",
+            "ILLEGAL_MOVE" : "手番側の反則負け、反則の内容はコメントで記録する",
+            "+ILLEGAL_ACTION" : "先手(下手)の反則行為により、後手(上手)の勝ち" ,
+            "-ILLEGAL_ACTION" :"後手(上手)の反則行為により、先手(下手)の勝ち",
+            "JISHOGI" : "持将棋",
+            "KACHI":"(入玉で)勝ちの宣言" ,
+            "HIKIWAKE" : "(入玉で)引き分けの宣言",
+            "MATTA" :"待った",
+            "TSUMI" : "詰み",
+            "FUZUMI" : "不詰",
+            "ERROR" :"エラー:"
+        };
+        return typeof charactorObject[transText] !== "undefined"
+            ? charactorObject[transText]
+            : transText;
+    }
+
 
     transKifText(
         kifText: string | null,
