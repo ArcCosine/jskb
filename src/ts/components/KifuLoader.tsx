@@ -73,8 +73,8 @@ export class KifuLoader {
     updatePiece(boardPiece: string) : void {
         const translater = new Translater();
 
+        const flatPiece = translater.reversePieceToTop(boardPiece.replace(/[-+]/, ""));
         if (boardPiece !== "*") {
-            const flatPiece = translater.reversePieceToTop(boardPiece.replace(/[-+]/, ""));
             if (boardPiece.indexOf("-") > -1) {
                 if (
                     typeof this.pieceSente[flatPiece] ===
@@ -91,7 +91,7 @@ export class KifuLoader {
                 }
                 this.pieceGote[flatPiece] = this.pieceGote[flatPiece] + 1;
             }
-        }
+        } 
     }
 
 
@@ -113,11 +113,12 @@ export class KifuLoader {
         if (num > 0) {
             // progress
             const moveData = this.moves["history"][this.pos];
+            // console.error(moveData);
             const direction = this.pos % 2 !== 0 ? "-" : "+";
             if( moveData.x ){
-            this.updatePiece(this.board[moveData.y - 1][9 - moveData.x]);
-            this.board[moveData.y - 1][9 - moveData.x] =
-                direction + moveData.piece;
+                this.updatePiece(this.board[moveData.y - 1][9 - moveData.x]);
+                this.board[moveData.y - 1][9 - moveData.x] =
+                    direction + moveData.piece;
             }
             if( moveData.beforeX ){
                 this.board[moveData.beforeY - 1][9 - moveData.beforeX] = "*";
@@ -125,7 +126,7 @@ export class KifuLoader {
         } else {
             // back
             const moveData = this.moves["history"][this.pos + 1];
-            console.error(moveData);
+            // console.error(moveData);
             const direction = this.pos % 2 !== 0 ? "+" : "-";
             if( moveData.beforeX ){
                 this.updatePiece(this.board[moveData.beforeY - 1][9 - moveData.beforeX]);
@@ -134,6 +135,10 @@ export class KifuLoader {
             }
             if( moveData.x ){
                 this.board[moveData.y - 1][9 - moveData.x] = "*";
+            }
+            if( !moveData.beforeX ){
+                // TODO
+                console.log('Before Piece Prot');
             }
         }
     }
