@@ -7,14 +7,13 @@ const devConfig = merge(common, {
     devtool: 'source-map',
     devServer: {
         https: true,
-        inline: true,
         hot: true,
-        contentBase: path.join(__dirname, 'dist'),
-        watchContentBase: true,
         host: '0.0.0.0',
-        disableHostCheck: true,
         port: 9200,
         historyApiFallback: true,
+        static: {
+            directory: path.join(__dirname, "./dist"),
+        },
     }
 })
 
