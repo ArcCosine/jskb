@@ -8,29 +8,26 @@ export interface BoardControlProps {
     onRotate: ()=> void;
 }
 
-export class BoardControl extends React.Component<BoardControlProps, {}> {
+export const BoardControl: React.FC<BoardControlProps> = ({ text, controlIndex, onPreviouse, onNext, onRotate }) => {
 
-    handleClick(event: any){
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        switch( event.target.value ){
+        switch( event.currentTarget.value ){
             case '0':
-                this.props.onPreviouse();
+                onPreviouse();
                 break;
             case '1':
-                this.props.onRotate();
+                onRotate();
                 break;
             case '2':
-                this.props.onNext();
+                onNext();
                 break;
             default:
                 break;
         }
-        return false;
-    }
+    };
 
-    render() {
-        return( 
-            <button className="jskb-btn" value={this.props.controlIndex} onClick={this.handleClick.bind(this)}>{this.props.text}</button>
-        );
-    }
+    return ( 
+        <button className="jskb-btn" value={String(controlIndex)} onClick={handleClick}>{text}</button>
+    );
 }

@@ -7,6 +7,7 @@ interface KifStatus {
     beforeY: number;
     piece: string;
     status: string;
+    capturedPiece?: string | null;
 }
 
 interface MoveHistory {
@@ -94,6 +95,29 @@ export class KifuLoader {
         } 
     }
 
+    removePiece(boardPiece: string) : void {
+        const translater = new Translater();
+
+        const flatPiece = translater.reversePieceToTop(boardPiece.replace(/[-+]/, ""));
+        if (boardPiece !== "*") {
+            if (boardPiece.indexOf("-") > -1) {
+                if (this.pieceSente[flatPiece]) {
+                    this.pieceSente[flatPiece] = this.pieceSente[flatPiece] - 1;
+                    if (this.pieceSente[flatPiece] === 0) {
+                        delete this.pieceSente[flatPiece];
+                    }
+                }
+            } else {
+                if (this.pieceGote[flatPiece]) {
+                    this.pieceGote[flatPiece] = this.pieceGote[flatPiece] - 1;
+                    if (this.pieceGote[flatPiece] === 0) {
+                        delete this.pieceGote[flatPiece];
+                    }
+                }
+            }
+        } 
+    }
+
 
     movePiece(num: number): void {
         this.pos = this.pos + num;
@@ -116,7 +140,9 @@ export class KifuLoader {
             // console.error(moveData);
             const direction = this.pos % 2 !== 0 ? "-" : "+";
             if( moveData.x ){
-                this.updatePiece(this.board[moveData.y - 1][9 - moveData.x]);
+                const targetPiece = this.board[moveData.y - 1][9 - moveData.x];
+                moveData.capturedPiece = targetPiece;
+                this.updatePiece(targetPiece);
                 this.board[moveData.y - 1][9 - moveData.x] =
                     direction + moveData.piece;
             }
@@ -129,12 +155,14 @@ export class KifuLoader {
             // console.error(moveData);
             const direction = this.pos % 2 !== 0 ? "+" : "-";
             if( moveData.beforeX ){
-                this.updatePiece(this.board[moveData.beforeY - 1][9 - moveData.beforeX]);
                 this.board[moveData.beforeY - 1][9 - moveData.beforeX] =
                     direction + moveData.piece;
             }
             if( moveData.x ){
-                this.board[moveData.y - 1][9 - moveData.x] = "*";
+                this.board[moveData.y - 1][9 - moveData.x] = moveData.capturedPiece || "*";
+                if (moveData.capturedPiece && moveData.capturedPiece !== "*") {
+                    this.removePiece(moveData.capturedPiece);
+                }
             }
             if( !moveData.beforeX ){
                 // TODO
